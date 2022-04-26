@@ -30,9 +30,9 @@ python abd.py <file name> \
 
 Example command usage: 
 python abd.py trial_truQuant_master.txt \
-                                    TBP,TAF1,TFIIB \
-                                    -100+100 \
-                                    70,80,90,100
+              TBP,TAF1,TFIIB \
+              -100+100 \
+              70,80,90,100
 ```
 # Parameter description #
 file name: <str> tab delimited file that at a minimum contains a column to sort the file by and a column with the sequences
