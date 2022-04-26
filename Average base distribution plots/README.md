@@ -28,7 +28,8 @@ python abd.py <file name> \
               <Header column with sequences> \
               <Percentages for slicing> \
 
-Example command line: python abd.py trial_truQuant_master.txt \
+Example command usage: 
+python abd.py trial_truQuant_master.txt \
                                     TBP,TAF1,TFIIB \
                                     -100+100 \
                                     70,80,90,100
