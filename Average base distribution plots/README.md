@@ -3,7 +3,7 @@ This script will calculate the proportion of each base at a given position for m
 
 # File requirements #
 The input file should be a tab delimited file with at least two columns: 
-   1. A column containing one sequence per row. The sequences can be of any length, but they all have to be of the same length.
+   1. A column containing one sequence per row. The sequences can be of any length (as long as they are even), but they all have to be of the same length.
    2. A column with expression/ fold change or any type of numerical data to sort the file and thereby the column with the sequences.
 
 # Behavior #
@@ -37,5 +37,5 @@ python abd.py trial_truQuant_master.txt \
 # Parameter description #
 file name: <str> tab delimited file that at a minimum contains a column to sort the file by and a column with the sequences
 Header column to sort by: <str> Comma separated headers for every comlumn use for sorting. In the example run above, the input file will be first sorted by TBP fold changes and the base distributions calculated for each percentage slicing before moving on to sort by TAF1 and so on.
-Header column with sequences: <str> The header of the sequence column. The sequences can be of any length.
+Header column with sequences: <str> The header of the sequence column. The sequences can be of any length as long as they are even.
 Percentages for slicing: <int> Commma separated pair of percentages to which the calculations will be restricted to. In the example run above, the input file will be first sorted by TBP fold changes and the base distributions calculated for sequences within 70-80%, then 90-100% before moving on to sort by TAF1 and so on.
