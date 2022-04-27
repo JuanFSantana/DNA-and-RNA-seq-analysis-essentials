@@ -43,9 +43,14 @@ python abd.py trial_truQuant_master.txt \
               70,80,90,100
 ```
 # Parameter description #
+```
 file name: <str> tab delimited file that at a minimum contains a column to sort the file by and a column with the sequences
+
 Header column to sort by: <str> Comma separated headers for every comlumn use for sorting. In the example run above, the input file will be first sorted by TBP fold change and the base distributions calculated for each percentage slicing before moving on to sort by TAF1 and so on.
+
 Header column with sequences: <str> The header of the sequence column. The sequences can be of any length as long as they are even.
+
 Percentages for slicing: <int> Commma separated pair of percentages to which the calculations will be restricted to. In the example run above, the input file will be first sorted by TBP fold change and the base distributions calculated for sequences within 70-80%, then 90-100% before moving on to sort by TAF1 and so on.
+```
 
 The dataset "trial_truQuant_master.txt" from XXXX can be downloaded [here](https://github.com/JuanFSantana/DNA-and-RNA-seq-analysis-essentials/blob/main/Average%20base%20distribution%20plots/trial_truQuant_master.txt) if interested in running the example command line. 
