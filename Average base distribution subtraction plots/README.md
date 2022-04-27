@@ -24,6 +24,7 @@ A base distribution will be calculated for the indicated two groups of percentag
   * This analysis gives a clearer view of the preference/disfavor of sequences by substracting the top from the bottom. 
 
 # Dependencies #
+### Python libraries ###
 Pandas: https://pypi.org/project/pandas/
 (The output of the script is an excel file. Pandas has an excel class. However, if the error "ModuleNotFoundError: No module named 'xlsxwriter'" appears after running the script, then please pip install xlsxwriter)
 
