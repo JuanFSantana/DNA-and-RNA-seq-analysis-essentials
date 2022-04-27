@@ -22,6 +22,7 @@ A base distribution will be calculated for the indicated percentage of sequences
   * Only the sequences that fall within the lower and upper bound percentages will be used for the analysis.
 
 # Dependencies #
+### Python libraries ###
 Pandas: https://pypi.org/project/pandas/
 (The output of the script is an excel file. Pandas has an excel class. However, if the error "ModuleNotFoundError: No module named 'xlsxwriter'" appears after running the script, then please pip install xlsxwriter)
 
