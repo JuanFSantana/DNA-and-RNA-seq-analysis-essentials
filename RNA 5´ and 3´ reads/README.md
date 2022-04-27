@@ -26,7 +26,7 @@ python prime3_5.py tbp_dmso_comb.bed \
 ```
 File name: <str> Bed files containing the first six columns. More than one bed file can be used as input separated by a comma. 
 
-Output 5´ name,  Output 3´ name: <str> Comma separated names for the output files. Two names per input bed file in order with the 5´ file name first followed by the name of the 3´ file.
+Output 5´ name,  Output 3´ name: <str> Comma separated names for the output files. Two names per input bed file. The order must be the 5´ output file name first followed by the name of the 3´ output file.
 
 ```
 
