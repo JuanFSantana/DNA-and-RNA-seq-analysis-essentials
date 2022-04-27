@@ -1,10 +1,10 @@
-# abd_substraction.py #
+# sequence_slicer.py #
 This script will slice a sequence, even in length, relative to the center. It will sort the file based on a given paramter (fold change, peak enrichment, etc), segment the dataset based on a chosen percentage and slice the sequences for a chosen region. The output is an excel file containing the sliced sequences.
 
 # File requirements #
 The input file should be a tab delimited file with at least two columns: 
    1. A column with expression/ fold change or any type of numerical data to sort the file and thereby the column with the sequences.
-   2. A column containing one sequence per row. The sequences can be of any length (as long as they are even), but they all have to be of the same length.
+   2. A column containing one sequence per row. The sequences can be of any length (as long as they are even), but they all have to be of the same length. The slicing occurs relative to the center of the sequence. For example, a 200 base pair (bp) region sorrounding a transcription start site (+/-100 bp) where the TSS is in the +1 position. 
       * The sequence must be of the format: name, underscore, DNA sequence.
 
 Example file:
@@ -19,16 +19,13 @@ Example file:
 The input file will be sorted (greatest to least) by the header of a column of choice (e.g. peak enrichment, fold change, p-value, etc). 
   * This is useful when interested in the composition of the underlying DNA sequence of high/low affinity binding sites, for example. 
 
-A base distribution will be calculated for the indicated two groups of percentage of sequences.
-  * Only the sequences that fall within the lower and upper bound percentages will be used for the analysis.
-  * This analysis gives a clearer view of the preference/disfavor of sequences by substracting the top from the bottom. 
+The sequence will be sliced for only the sequences that fall within the lower and upper bound percentages chosen.
+  * This analysis gives a clearer view of the preference/disfavor of sequences. 
 
 # Dependencies #
 ### Python libraries ###
 Pandas: https://pypi.org/project/pandas/
 (The output of the script is an excel file. Pandas has an excel class. However, if the error "ModuleNotFoundError: No module named 'xlsxwriter'" appears after running the script, then please pip install xlsxwriter)
-
-Numpy: https://pypi.org/project/numpy/
 
 Operating system (OS): https://pypi.org/project/os-sys/
 
