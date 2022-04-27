@@ -1,21 +1,13 @@
 
 # prime3_5.py #
-This script will yield two files: each with the position of the 5´ and 3´ ends of reads.
+This script will yield two files each with the position of the 5´ or 3´ ends of reads. Currently, the script removes moth reads used as spike-in in XXXXXXXX. It can be modified to remove any other organism used as spike-in.
 
 # File requirements #
 The input file should be bed file. 
 
-# Behavior #
-The input file will be sorted (greatest to least) by the header of a column of choice (e.g. peak enrichment, fold change, p-value, etc). 
-  * This is useful when interested in the composition of the underlying DNA sequence of high/low affinity binding sites, for example. 
-
-The sequence will be sliced for each of the regions only for the sequences that fall within the lower and upper bound percentages chosen.
-  * This analysis gives a clearer view of the preference/disfavor of sequences. 
-
 # Dependencies #
 ### Python libraries ###
 Pandas: https://pypi.org/project/pandas/
-(The output of the script is an excel file. Pandas has an excel class. However, if the error "ModuleNotFoundError: No module named 'xlsxwriter'" appears after running the script, then please pip install xlsxwriter)
 
 Operating system (OS): https://pypi.org/project/os-sys/
 
