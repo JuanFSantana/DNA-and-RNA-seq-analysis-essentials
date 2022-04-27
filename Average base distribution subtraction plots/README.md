@@ -10,9 +10,9 @@ The input file should be a tab delimited file with at least two columns:
 Example file:
 | Header 1      | Header 2      |
 | ------------- |:-------------:| 
-| 2.5           | Gene1_ATCGTTA | 
-| 3             | Gene2_CCCAGTT |  
-| 10            | Gene2_TTAGGCA |    
+| 2.5           | Gene1_ATCGTT  | 
+| 3             | Gene2_CCCAGT  |  
+| 10            | Gene2_TTAGGC  |    
 
 
 # Behavior #
