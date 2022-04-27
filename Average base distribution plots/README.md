@@ -5,6 +5,14 @@ This script will calculate the proportion of each base at a given position for m
 The input file should be a tab delimited file with at least two columns: 
    1. A column containing one sequence per row. The sequences can be of any length (as long as they are even), but they all have to be of the same length.
    2. A column with expression/ fold change or any type of numerical data to sort the file and thereby the column with the sequences.
+      * The sequence must be of the format name, underscore, DNA sequence.
+
+Example file:
+| Header 1      | Header 2      |
+| ------------- |:-------------:| 
+| 2.5           | Gene1_ATCGTTA | 
+| 3             | Gene2_CCCAGTT |  
+| 10            | Gene2_TTAGGCA |    
 
 # Behavior #
 The input file will be sorted (greatest to least) by the header of a column of choice (e.g. peak enrichment, fold changes, p-values, etc). 
