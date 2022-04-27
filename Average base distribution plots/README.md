@@ -15,7 +15,7 @@ Example file:
 | 10            | Gene2_TTAGGCA |    
 
 # Behavior #
-The input file will be sorted (greatest to least) by the header of a column of choice (e.g. peak enrichment, fold change, p-values, etc). 
+The input file will be sorted (greatest to least) by the header of a column of choice (e.g. peak enrichment, fold change, p-value, etc). 
   * This is useful when interested in the composition of the underlying DNA sequence of high/low affinity binding sites, for example. 
 
 A base distribution will be calculated for the indicated percentage of sequences.
