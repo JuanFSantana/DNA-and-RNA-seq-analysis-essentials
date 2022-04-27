@@ -38,11 +38,11 @@ python abd.py <File name> \
               <Region to slice> \
 
 Example command usage: 
-python abd.py trial_truQuant_master.txt \
-              -100+100 \
-              TBP,TAF1,TFIIB \
-              0,10,20,30
-              -36,-19,-5,5
+python sequence_slicer.py trial_truQuant_master.txt \
+                          -100+100 \
+                          TBP,TAF1,TFIIB \
+                          0,10,20,30
+                          -36,-19,-5,5
 ```
 # Parameter description #
 ```
