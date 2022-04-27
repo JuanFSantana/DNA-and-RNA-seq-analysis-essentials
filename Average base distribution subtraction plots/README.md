@@ -40,10 +40,10 @@ python abd.py <File name> \
               <Percent for slicing> \
 
 Example command usage: 
-python abd.py trial_truQuant_master.txt \
-              TBP,TAF1,TFIIB \
-              -100+100 \
-              20
+python abd_substraction.py trial_truQuant_master.txt \
+                           TBP,TAF1,TFIIB \
+                           -100+100 \
+                           20
 ```
 # Parameter description #
 ```
