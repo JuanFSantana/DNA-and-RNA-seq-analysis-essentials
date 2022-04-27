@@ -3,8 +3,8 @@ This script will calculate the proportion of each base at a given position for m
 
 # File requirements #
 The input file should be a tab delimited file with at least two columns: 
-   2. A column with expression/ fold change or any type of numerical data to sort the file and thereby the column with the sequences.
-   3. A column containing one sequence per row. The sequences can be of any length (as long as they are even), but they all have to be of the same length.
+   1. A column with expression/ fold change or any type of numerical data to sort the file and thereby the column with the sequences.
+   2. A column containing one sequence per row. The sequences can be of any length (as long as they are even), but they all have to be of the same length.
       * The sequence must be of the format: name, underscore, DNA sequence.
 
 Example file:
