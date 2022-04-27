@@ -1,5 +1,5 @@
 """
-@author: Juan
+@author: Juan F. Santana, Ph.D.
 """
 
 import pandas as pd
