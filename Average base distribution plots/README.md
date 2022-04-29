@@ -53,3 +53,5 @@ Percentages for slicing: <int> Commma separated pair of percentages to which the
 ```
 
 The dataset "trial_truQuant_master.txt" from XXXX can be downloaded [here](https://github.com/JuanFSantana/DNA-and-RNA-seq-analysis-essentials/blob/main/Average%20base%20distribution%20plots/trial_truQuant_master.txt) if interested in running the example command line. 
+
+Example output: Line plot of the base distributions of a +/- 100bp region for different fold change percentage groups transcription start regions (TSRs) as explained here XXXXXXXX. Note that the output excel file contains multiple sheets for each percentage group.
