@@ -27,8 +27,6 @@ The sequence will be sliced for each of the regions only for the sequences that 
 Pandas: https://pypi.org/project/pandas/
 (The output of the script is an excel file. Pandas has an excel class. However, if the error "ModuleNotFoundError: No module named 'xlsxwriter'" appears after running the script, then please pip install xlsxwriter)
 
-Operating system (OS): https://pypi.org/project/os-sys/
-
 # Example of arguments #
 ```
 python abd.py <File name> \
