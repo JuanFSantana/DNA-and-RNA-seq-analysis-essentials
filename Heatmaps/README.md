@@ -55,4 +55,3 @@ Heatmap width: <int> The number of pixels per base position.
 ```
 Example output: control, experimental and fold change (log2)
 
-![dmso](https://user-images.githubusercontent.com/38702786/166000331-b67e0cd2-a3da-453e-9d3b-1eb5b970d1a5.jpg)  ![vhl](https://user-images.githubusercontent.com/38702786/166000372-e0db0cfe-32b7-4dd8-a56c-c3c6175c5c70.jpg)  ![ratio](https://user-images.githubusercontent.com/38702786/166000417-9d32452d-a2c3-474b-89b6-67f9cb9b6354.jpg)
