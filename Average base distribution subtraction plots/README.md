@@ -58,4 +58,4 @@ The dataset "trial_truQuant_master.txt" from XXXX can be downloaded [here](https
 
 Example output: Line plot of the base distributions of a +/- 100bp region following substraction of the top 20% minus bottom 20% dependent TBP transcription start regions (TSRs) as explained here XXXXXXXX. Note that the output excel file contains multiple sheets for each factor.
 
-![Picture7](https://user-images.githubusercontent.com/38702786/166009066-49442cac-110b-409b-a296-5c4aa6bb9b6b.png)
+![Picture7](https://user-images.githubusercontent.com/38702786/166009944-6e392122-94b7-4712-81d9-95f75606c80c.png)
