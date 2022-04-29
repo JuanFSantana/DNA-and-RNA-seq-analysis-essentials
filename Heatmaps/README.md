@@ -20,24 +20,27 @@ Pandas: https://pypi.org/project/pandas/
 
 Numpy: https://pypi.org/project/numpy/
 
-https://matplotlib.org/stable/users/installing/index.html
+Matplotlib: https://matplotlib.org/stable/users/installing/index.html
 
 # Example of arguments #
 ```
-python abd.py <File name> \
-              <Header column to sort by greatest to least> \
-              <Header column with sequences> \
-              <Percentages for slicing> \
-
+python heatmap.py <File 1,File 2> \
+              <Name output heatmap 1,name output heatmap 2,Name output heatmap 3 > \
+              <Black/white max value,Red/blue max value> \
+              <Vertical average> \
+              <Output directory> \
+              <Heatmap width> \
+python color.py tbp_5_reads_overlap_dmso.bed,tbp_5_reads_overlap_vhl.bed TBP_5_DMSO,TBP_5_VHL,TBP_5_ratio avgx2,4 10 C:\Users\Juan\Desktop\CS1210\Heatmaps 3
 Example command usage: 
-python abd.py trial_truQuant_master.txt \
-              TBP,TAF1,TFIIB \
-              -100+100 \
-              70,80,90,100
+python heatmap.py TBP_5_reads_overlap_dmso.bed,TBP_5_reads_overlap_vhl.bed \
+                  TBP_5_DMSO,TBP_5_VHL,TBP_5_ratio \
+                  avgx2,4 \
+                  /Users/Desktop/Heatmaps \
+                  3
 ```
 # Parameter description #
 ```
-file name: <str> tab delimited file that at a minimum contains a column to sort the file by and a column with the sequences
+Name output heatmap 1,name output heatmap 2,Name output heatmap 3: <str> Comma delimited file that at a minimum contains a column to sort the file by and a column with the sequences
 
 Header column to sort by: <str> Comma separated headers for every comlumn use for sorting. In the example run above, the input file will be first sorted by TBP fold change and the base distributions calculated for each percentage slicing before moving on to sort by TAF1 and so on.
 
