@@ -44,7 +44,7 @@ File 1,File 2: <str> Two files, control and experimental - in that order -, form
 
 Name output heatmap 1,name output heatmap 2,Name output heatmap 3: <str> Comma separated names for the output heatmaps. The order of names should be as follow: control, experimental, ratio (control/experimental). 
 
-Black/white max value,Red/blue max value: Black/ white max value options are "max" or avgx<int> or avgy<int>. "max" is the largest value present in the heatmap. avgx<int> is the average of the heatmap times an integer. avgy<int> is the average of the heatmap divided by an integer. For Red/blue max value, the only option is an integer. Both the max and min value of are set to this integer.  
+Black/white max value,Red/blue max value: Black/ white max value options are "max" or avgx<int> or avgy<int>. "max" is the largest value present in the heatmap. avgx<int/float> is the average of the heatmap times an integer. avgy<int/float> is the average of the heatmap divided by an integer. For Red/blue max value, the only option is a i<int/float> chosen by the user. Both the max and min values of are set to this number.  
 Black and white heatmaps, the darkest pixel is assigned to the max value indicated while white is zero. A gradient of white to black is proporionally determined for the rest of the values in the heatmap. Red and blue heatmaps, the darkest red and blue pixel is assigned to the max value indicated while white is zero. The color for positive numbers are determined proportionally in the white to red gradient while the colors for negative colors are determined proportionally in the white to blue gradient.
 
 Vertical average: <int> NUmber of rows to be vertically averaged.
@@ -53,4 +53,6 @@ Output directory: <str> The output heatmaps will be deposited in this path.
 
 Heatmap width: <int> The number of pixels per base position.
 ```
+Example output: control, experimental and fold change (log2)
 
+![dmso](https://user-images.githubusercontent.com/38702786/166000331-b67e0cd2-a3da-453e-9d3b-1eb5b970d1a5.jpg)  ![vhl](https://user-images.githubusercontent.com/38702786/166000372-e0db0cfe-32b7-4dd8-a56c-c3c6175c5c70.jpg)  ![ratio](https://user-images.githubusercontent.com/38702786/166000417-9d32452d-a2c3-474b-89b6-67f9cb9b6354.jpg)
