@@ -1,9 +1,9 @@
 
 # prime3_5.py #
-This script will yield two files each with the position of the 5´ or 3´ ends of reads from a bed file resulting from any type of RNA-seq experiment (PRO-seq, GRO-seq, etc). The output will be stranded. Currently, the script removes moth reads used as spike-in in XXXXXXXX. It can be modified to remove reads resulting from any other organism used as spike-in.
+This script will yield two files each with the position of the 5´ or 3´ ends of reads from a bed file resulting from any type of RNA-seq experiment (PRO-seq, GRO-seq, etc). The script will take into account the strand information for each read. 
 
 # File requirements #
-The input file should be a bed file containing the first six columns. 
+The input file is a bed file containing at the very least the first six columns. 
 
 # Dependencies #
 ### Python libraries ###
