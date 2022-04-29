@@ -2,7 +2,7 @@
 This script will create two types of heatmaps: black and white heatmaps corresponding to the number of 5´ or 3´ reads in a window and a color heatmap corresponding to the fold change between the number of 5´ or 3´ reads in a window for control and an experimental dataset. 
 
 # File requirements #
-The input file should be a tab delimited file that contains the start and end of 5´ or 3´ reads overlapping a chosen genomic window. I have posted a script that yields the genomic coordinates of 5´ and 3´ reads from a bed file [here](https://github.com/JuanFSantana/DNA-and-RNA-seq-analysis-essentials/blob/main/Average%20base%20distribution%20plots/trial_truQuant_master.txt)
+The input file should be a tab delimited file that contains the start and end of 5´ or 3´ reads overlapping a chosen genomic window. I have posted a script that yields the genomic coordinates of 5´ and 3´ reads from a bed file [here](https://github.com/JuanFSantana/DNA-and-RNA-seq-analysis-essentials/tree/main/Stranded%205%C2%B4%20and%203%C2%B4%20reads).
 
 Example file:
 | Header 1      | Header 2      |
