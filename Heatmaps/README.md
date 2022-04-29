@@ -20,7 +20,7 @@ Pandas: https://pypi.org/project/pandas/
 
 Numpy: https://pypi.org/project/numpy/
 
-Operating system (OS): https://pypi.org/project/os-sys/
+https://matplotlib.org/stable/users/installing/index.html
 
 # Example of arguments #
 ```
