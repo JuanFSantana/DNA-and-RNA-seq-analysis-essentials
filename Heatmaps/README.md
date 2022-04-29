@@ -30,7 +30,7 @@ python heatmap.py <File 1,File 2> \
               <Vertical average> \
               <Output directory> \
               <Heatmap width> \
-python color.py tbp_5_reads_overlap_dmso.bed,tbp_5_reads_overlap_vhl.bed TBP_5_DMSO,TBP_5_VHL,TBP_5_ratio avgx2,4 10 C:\Users\Juan\Desktop\CS1210\Heatmaps 3
+
 Example command usage: 
 python heatmap.py TBP_5_reads_overlap_dmso.bed,TBP_5_reads_overlap_vhl.bed \
                   TBP_5_DMSO,TBP_5_VHL,TBP_5_ratio \
