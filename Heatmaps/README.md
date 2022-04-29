@@ -1,5 +1,5 @@
 # heatmap.py #
-This script will create two types of heatmaps: black and white heatmaps corresponding to the number of 5´ or 3´ reads in a window and a color (red and blue with white as zero) heatmap corresponding to the fold change between the number of 5´ or 3´ reads in a window for control and an experimental dataset. 
+This script will create two types of heatmaps: black and white heatmaps corresponding to the number of 5´ or 3´ reads in a window and a color (red and blue with white as zero) heatmap corresponding to the log2 fold change between the number of 5´ or 3´ reads in a window for control over the experimental dataset in the same window. 
 
 # File requirements #
 The input file should be a tab delimited file that contains the start and end of 5´ or 3´ reads overlapping a chosen genomic window. I have posted a script that yields the genomic coordinates of 5´ and 3´ reads from an aligment bed file [here](https://github.com/JuanFSantana/DNA-and-RNA-seq-analysis-essentials/tree/main/Stranded%205%C2%B4%20and%203%C2%B4%20reads). This file can now be used as input for programs such as [bedtools intersect] (https://bedtools.readthedocs.io/en/latest/content/tools/intersect.html) which can determine whether two sets of genomic features overlap.
@@ -40,13 +40,15 @@ python heatmap.py TBP_5_reads_overlap_dmso.bed,TBP_5_reads_overlap_vhl.bed \
 ```
 # Parameter description #
 ```
-Name output heatmap 1,name output heatmap 2,Name output heatmap 3: <str> Comma delimited file that at a minimum contains a column to sort the file by and a column with the sequences
+File 1,File 2: <str> Two files, control and experimental - in that order -, formatted as described above.
 
-Header column to sort by: <str> Comma separated headers for every comlumn use for sorting. In the example run above, the input file will be first sorted by TBP fold change and the base distributions calculated for each percentage slicing before moving on to sort by TAF1 and so on.
+Name output heatmap 1,name output heatmap 2,Name output heatmap 3: <str> Comma separated names for the output heatmaps. The order of names should be as follow: control, experimental, ratio (control/experimental). 
 
-Header column with sequences: <str> The header of the sequence column. The sequences can be of any length as long as they are even.
+Black/white max value,Red/blue max value: Black/ white max value options are "max" or avgx<int> or avgy<int>. "max" is the largest value present in the heatmap. avgx<int> is the average of the heatmap times an integer. avgy<int> is the average of the heatmap divided by an integer. For Red/blue max value, the only option is an integer. Both the max and min value of are set to this integer.  
+Black and white heatmaps, the darkest pixel is assigned to the max value indicated while white is zero. A gradient of white to black is proporionally determined for the rest of the values in the heatmap. Red and blue heatmaps, the darkest red and blue pixel is assigned to the max value indicated while white is zero. The color for positive numbers are determined proportionally in the white to red gradient while the colors for negative colors are determined proportionally in the white to blue gradient.
 
-Percentages for slicing: <int> Commma separated pair of percentages to which the calculations will be restricted to. In the example run above, the input file will be first sorted by TBP fold change and the base distributions calculated for sequences within 70-80%, then 90-100% before moving on to sort by TAF1 and so on.
+Output directory: <str> The output heatmaps will be deposited in this path. 
+
+Heatmap width: <int> The number of pixels per base position.
 ```
 
-The dataset "trial_truQuant_master.txt" from XXXX can be downloaded [here](https://github.com/JuanFSantana/DNA-and-RNA-seq-analysis-essentials/blob/main/Average%20base%20distribution%20plots/trial_truQuant_master.txt) if interested in running the example command line. 
