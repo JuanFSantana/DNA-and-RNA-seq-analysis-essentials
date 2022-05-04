@@ -85,8 +85,7 @@ def main(args):
                 array_to_image = np.repeat(array_to_image, heatmap_width, axis=1) 
 
             height,width = array_to_image.shape
-            total_cells_array = height*width
-
+            
             counter2=0
             for maxes in range(0,len(blackVal_logColor),2):
 
