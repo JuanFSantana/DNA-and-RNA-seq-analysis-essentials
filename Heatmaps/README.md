@@ -16,7 +16,6 @@ Two input files, control and experimental, are required with the format describe
 # Dependencies #
 ### Python libraries ###
 Pandas: https://pypi.org/project/pandas/
-(The output of the script is an excel file. Pandas has an excel class. However, if the error "ModuleNotFoundError: No module named 'xlsxwriter'" appears after running the script, then please pip install xlsxwriter)
 
 Numpy: https://pypi.org/project/numpy/
 
