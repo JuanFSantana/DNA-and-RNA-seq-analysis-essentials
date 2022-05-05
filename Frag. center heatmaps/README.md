@@ -53,5 +53,9 @@ Heatmap width: <int> The number of pixels per base position.
 ```
 Output from example command usage: TBP-DFF-Seq data from [Spector et al., 2022](https://www.nature.com/articles/s41467-022-29739-x) for a +/- 100 bp region relative to the TSS of 10,273 transcription start regions (TSRs) identified here xxxxxxxxxxx.
 
-![Picture4](https://user-images.githubusercontent.com/38702786/166007154-9fb6689b-abcb-4769-a530-9180741ea600.jpg)   ![Picture5](https://user-images.githubusercontent.com/38702786/166007152-6d2a2d27-2b4b-4024-a628-f4b540c9b739.jpg)   ![Picture6](https://user-images.githubusercontent.com/38702786/166007155-50f8ad5e-191a-461f-8400-8b66708b6f87.jpg)
-
+![FC_20-40_VertAvg_10_BLACK_max_146 6_WIDTH_3_](https://user-images.githubusercontent.com/38702786/166952878-83195063-9a21-4c84-a0c2-065ac92d0a43.png)
+![FC_70-80_VertAvg_10_BLACK_avgx2_0 38_WIDTH_3_](https://user-images.githubusercontent.com/38702786/166952885-5a12db6c-0f69-4574-94f1-da9d11ee0449.png)
+![FC_70-80_VertAvg_10_BLACK_max_83 9_WIDTH_3_](https://user-images.githubusercontent.com/38702786/166952887-0f76dcad-71d3-41ab-98b2-1f6ed055f62e.png)
+![FC_all_VertAvg_10_BLACK_avgx2_1 65_WIDTH_3_](https://user-images.githubusercontent.com/38702786/166952888-7e1b1662-3104-4861-9fd8-f2213993de74.png)
+![FC_all_VertAvg_10_BLACK_max_181 3_WIDTH_3_](https://user-images.githubusercontent.com/38702786/166952890-16a200bb-8eaa-4b82-a6e1-bce5060a857a.png)
+![FC_20-40_VertAvg_10_BLACK_avgx2_0 06_WIDTH_3_](https://user-images.githubusercontent.com/38702786/166952892-d7d814f5-222a-489b-907f-9ed8ddf2c21c.png)
