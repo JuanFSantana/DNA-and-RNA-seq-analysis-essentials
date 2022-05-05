@@ -21,7 +21,7 @@ Matplotlib: https://matplotlib.org/stable/users/installing/index.html
 
 # Example of arguments #
 ```
-python frag_center.py <File 1> \
+python frag_center.py <File> \
                       <Fragment lengths> \
                       <Black values> \
                       <Vertical average> \
@@ -39,7 +39,7 @@ python frag_center.py plusminus100.bed \
 ```
 # Parameter description #
 ```
-File 1: <str> file formatted as described above.
+File: <str> file formatted as described above.
 
 Fragment lengths: Comma separated fragment lengths to be used for calculating the centers. The options can be a <str> all and/or <int>-<int>.
 
