@@ -21,14 +21,14 @@ Matplotlib: https://matplotlib.org/stable/users/installing/index.html
 
 # Example of arguments #
 ```
-python frag_center.py <File 1> \
-                      <Black values> \
-                      <Fragment lengths> \
-                      <Output directory> \
-                      <Heatmap width> \
+python fragmap.py <File 1> \
+                  <Black values> \
+                  <Fragment lengths> \
+                  <Output directory> \
+                  <Heatmap width> \
 
 Example command usage: 
-python heatmap.py plusminus100.bed \
+python fragmap.py plusminus100.bed \
                   max,avgx40 \
                   all, 20-200 \
                   /Desktop/Heatmaps \
