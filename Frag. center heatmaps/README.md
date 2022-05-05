@@ -33,7 +33,7 @@ python heatmap.py plusminus100.bed \
                   all,20-40,70-80 \
                   avgx2,max \
                   10 \
-                  /Desktop/CS1210/Heatmaps \
+                  /Desktop/Heatmaps \
                   3
 
 ```
@@ -51,13 +51,7 @@ Output directory: <str> The output heatmaps will be deposited in this path.
 
 Heatmap width: <int> The number of pixels per base position.
 ```
-Example output: control, experimental and fold change (log2) heatmaps for a +/- 100 bp region relative to the TSS of 10,273 transcription start regions (TSRs) identified here xxxxxxxxxxx.
-
-Black/white max value, Red/blue max value = avgx4.1,1.2
-
-Vertical average = 10
-
-Heatmap width = 3
+Output from example command usage: TBP-DFF-Seq data from [Spector et al., 2022](https://www.nature.com/articles/s41467-022-29739-x) for a +/- 100 bp region relative to the TSS of 10,273 transcription start regions (TSRs) identified here xxxxxxxxxxx.
 
 ![Picture4](https://user-images.githubusercontent.com/38702786/166007154-9fb6689b-abcb-4769-a530-9180741ea600.jpg)   ![Picture5](https://user-images.githubusercontent.com/38702786/166007152-6d2a2d27-2b4b-4024-a628-f4b540c9b739.jpg)   ![Picture6](https://user-images.githubusercontent.com/38702786/166007155-50f8ad5e-191a-461f-8400-8b66708b6f87.jpg)
 
