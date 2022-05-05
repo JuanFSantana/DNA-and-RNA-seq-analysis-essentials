@@ -29,12 +29,12 @@ python frag_center.py <File 1> \
                       <Heatmap width> \
 
 Example command usage: 
-python heatmap.py plusminus100.bed \
-                  all,20-40,70-80 \
-                  avgx2,max \
-                  10 \
-                  /Desktop/Heatmaps \
-                  3
+python frag_center.py plusminus100.bed \
+                      all,20-40,70-80 \
+                      avgx2,max \
+                      10 \
+                      /Desktop/Heatmaps \
+                      3
 
 ```
 # Parameter description #
