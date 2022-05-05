@@ -2,7 +2,7 @@
 This script will create fragment heatmaps as described here [Spector et al., 2022](https://www.nature.com/articles/s41467-022-29739-x) and here xxxxxx. Best used for unstranded data such as ChIP-seq.
 
 # File requirements #
-The input file should be a tab delimited file that contains the start and end of fragments/reads that overlap to the region of interest where the center is the feature under study (e.g. TSSs). [Bedtools intersect](https://bedtools.readthedocs.io/en/latest/content/tools/intersect.html) should be used to determine this overlap and obtain the following required type file required as input for **frag_center.py**:
+The input file should be a tab delimited file that contains the start and end of fragments/reads that overlap to the region of interest where the center is the feature under study (e.g. TSSs). [Bedtools intersect](https://bedtools.readthedocs.io/en/latest/content/tools/intersect.html) should be used to determine this overlap and obtain the following required type file required as input for **fragmap.py**:
 
 | chr6 | 142946246 | 142946446 | Gene_A | 102 | - | chr6 | 142946247 | 142946248 | A00876:119:HW5F5DRXX:2:2207:29170:1157 | 255 | - |
 | ---- |:---------:|:---------:|:------:|:---:|:-:|:----:|:---------:|:---------:|:--------------------------------------:|:---:|:-:|
@@ -22,30 +22,26 @@ Matplotlib: https://matplotlib.org/stable/users/installing/index.html
 # Example of arguments #
 ```
 python frag_center.py <File 1> \
-                      <Fragment lengths> \
                       <Black values> \
-                      <Vertical average> \
+                      <Fragment lengths> \
                       <Output directory> \
                       <Heatmap width> \
 
 Example command usage: 
 python heatmap.py plusminus100.bed \
-                  all,20-40,70-80 \
-                  avgx2,max \
-                  10 \
+                  max,avgx40 \
+                  all, 20-200 \
                   /Desktop/Heatmaps \
-                  3
+                  1
 
 ```
 # Parameter description #
 ```
 File 1: <str> file formatted as described above.
 
-Fragment lengths: Comma separated fragment lengths to be used for calculating the centers. The options can be a <str> all and/or <int>-<int>.
-
 Black values: Max value optionalities are "max" or avgx<int> or avgy<int>. "max" is the largest value present in the heatmap. avgx<int/float> is the average of the heatmap times an integer. avgy<int/float> is the average of the heatmap divided by an integer. The darkest pixel is assigned to the max value indicated while white is zero. A gradient of white to black is proporionally determined for the rest of the values in the heatmap.
 
-Vertical average: <int> Number of rows to be vertically averaged.
+Fragment lengths: Comma separated fragment lengths to be used for calculating the centers. The options can be a <str> all and/or <int>-<int>.
 
 Output directory: <str> The output heatmaps will be deposited in this path. 
 
