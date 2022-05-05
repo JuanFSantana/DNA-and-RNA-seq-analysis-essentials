@@ -9,7 +9,7 @@ The input file should be a tab delimited file that contains the start and end of
 
 
 # Behavior #
-The fragment centers are determined. Fragment lengths and black values are optionalities. Heatmaps of fragment centers of fragments of user chosen lengthd will be created with user chosen black values. 
+The fragment centers are determined. Fragment lengths and black values are optionalities. Heatmaps of fragment centers of fragments of user chosen length will be created with user chosen black values. 
 
 # Dependencies #
 ### Python libraries ###
