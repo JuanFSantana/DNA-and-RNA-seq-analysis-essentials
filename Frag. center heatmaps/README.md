@@ -53,7 +53,8 @@ Heatmap width: <int> The number of pixels per base position.
 ```
 Output from example command usage: TBP-DFF-Seq data from [Spector et al., 2022](https://www.nature.com/articles/s41467-022-29739-x) for a +/- 100 bp region relative to the TSS of 10,273 transcription start regions (TSRs) identified here xxxxxxxxxxx.
 
-Heatmaps: frag.length 20-40,black.val avgx2|frag.length 20-40,black.val max|frag.length 70-80,black.val avgx2|frag.length 70-80,black.val max|frag.length all,black.val avgx2|frag.length all,black.val max 
+Heatmaps: frag.length 20-40,black.val avgx2 | frag.length 20-40,black.val max | frag.length 70-80,black.val avgx2 | frag.length 70-80,black.val max | frag.length all,black.val avgx2 | frag.length all,black.val max 
+
 ![20 40 avgx2](https://user-images.githubusercontent.com/38702786/166954004-c60c4ae2-de57-4450-80ba-ecd488d1b0a4.png)
 ![20 40 max](https://user-images.githubusercontent.com/38702786/166954007-63346351-24a6-40e2-bb51-b14501cf9496.png)
 ![70 80 avgx22](https://user-images.githubusercontent.com/38702786/166954008-297aaf9a-f135-41b9-ae7b-8f66ca999870.png)
