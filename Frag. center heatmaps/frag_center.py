@@ -161,9 +161,6 @@ def main(args):
 
             inverted_image.save(image_path, dpi=(600, 600), quality=95, subsampling=0)      
             inverted_image.close()
-          
-#fragCenters("plusminus100.bed", [("all"),(20,40),(70,80)], ["avgx2", "max"], 10, r'C:\Users\Juan\Desktop\CS1210\Genomics Functions\Heatmaps', 3)
-
 
 if __name__ == '__main__':
     main(sys.argv[1:])
