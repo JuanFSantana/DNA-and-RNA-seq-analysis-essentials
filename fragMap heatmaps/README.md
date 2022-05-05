@@ -21,7 +21,7 @@ Matplotlib: https://matplotlib.org/stable/users/installing/index.html
 
 # Example of arguments #
 ```
-python fragmap.py <File 1> \
+python fragmap.py <File> \
                   <Black values> \
                   <Fragment lengths> \
                   <Output directory> \
@@ -37,7 +37,7 @@ python fragmap.py plusminus100.bed \
 ```
 # Parameter description #
 ```
-File 1: <str> file formatted as described above.
+File: <str> file formatted as described above.
 
 Black values: Max value optionalities are "max" or avgx<int> or avgy<int>. "max" is the largest value present in the heatmap. avgx<int/float> is the average of the heatmap times an integer. avgy<int/float> is the average of the heatmap divided by an integer. The darkest pixel is assigned to the max value indicated while white is zero. A gradient of white to black is proporionally determined for the rest of the values in the heatmap.
 
