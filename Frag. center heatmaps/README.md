@@ -53,9 +53,10 @@ Heatmap width: <int> The number of pixels per base position.
 ```
 Output from example command usage: TBP-DFF-Seq data from [Spector et al., 2022](https://www.nature.com/articles/s41467-022-29739-x) for a +/- 100 bp region relative to the TSS of 10,273 transcription start regions (TSRs) identified here xxxxxxxxxxx.
 
-![FC_20-40_VertAvg_10_BLACK_max_146 6_WIDTH_3_](https://user-images.githubusercontent.com/38702786/166952878-83195063-9a21-4c84-a0c2-065ac92d0a43.png)
-![FC_70-80_VertAvg_10_BLACK_avgx2_0 38_WIDTH_3_](https://user-images.githubusercontent.com/38702786/166952885-5a12db6c-0f69-4574-94f1-da9d11ee0449.png)
-![FC_70-80_VertAvg_10_BLACK_max_83 9_WIDTH_3_](https://user-images.githubusercontent.com/38702786/166952887-0f76dcad-71d3-41ab-98b2-1f6ed055f62e.png)
-![FC_all_VertAvg_10_BLACK_avgx2_1 65_WIDTH_3_](https://user-images.githubusercontent.com/38702786/166952888-7e1b1662-3104-4861-9fd8-f2213993de74.png)
-![FC_all_VertAvg_10_BLACK_max_181 3_WIDTH_3_](https://user-images.githubusercontent.com/38702786/166952890-16a200bb-8eaa-4b82-a6e1-bce5060a857a.png)
-![FC_20-40_VertAvg_10_BLACK_avgx2_0 06_WIDTH_3_](https://user-images.githubusercontent.com/38702786/166952892-d7d814f5-222a-489b-907f-9ed8ddf2c21c.png)
+Heatmaps: frag.length 20-40,black.val avgx2|frag.length 20-40,black.val max|frag.length 70-80,black.val avgx2|frag.length 70-80,black.val max|frag.length all,black.val avgx2|frag.length all,black.val max 
+![20 40 avgx2](https://user-images.githubusercontent.com/38702786/166954004-c60c4ae2-de57-4450-80ba-ecd488d1b0a4.png)
+![20 40 max](https://user-images.githubusercontent.com/38702786/166954007-63346351-24a6-40e2-bb51-b14501cf9496.png)
+![70 80 avgx22](https://user-images.githubusercontent.com/38702786/166954008-297aaf9a-f135-41b9-ae7b-8f66ca999870.png)
+![70 80 max](https://user-images.githubusercontent.com/38702786/166954010-232013bb-4ecf-42ad-8fc3-8612f66e188e.png)
+![all avgx2](https://user-images.githubusercontent.com/38702786/166954011-e6231345-b7be-44a3-8d29-8816aff6dab1.png)
+![all max](https://user-images.githubusercontent.com/38702786/166954013-6f73ae9f-0619-4395-9719-10a500e70bef.png)
