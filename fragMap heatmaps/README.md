@@ -51,10 +51,7 @@ Output from example command usage: TBP-DFF-Seq data from [Spector et al., 2022](
 
 Heatmaps: frag.length all, black.val max | frag.length 20-200, black.val max  
 
-![20 40 avgx2](https://user-images.githubusercontent.com/38702786/166954004-c60c4ae2-de57-4450-80ba-ecd488d1b0a4.png)
-![20 40 max](https://user-images.githubusercontent.com/38702786/166954007-63346351-24a6-40e2-bb51-b14501cf9496.png)
-![70 80 avgx22](https://user-images.githubusercontent.com/38702786/166954008-297aaf9a-f135-41b9-ae7b-8f66ca999870.png)
-![70 80 max](https://user-images.githubusercontent.com/38702786/166954010-232013bb-4ecf-42ad-8fc3-8612f66e188e.png)
-![all avgx2](https://user-images.githubusercontent.com/38702786/166954011-e6231345-b7be-44a3-8d29-8816aff6dab1.png)
-![all max](https://user-images.githubusercontent.com/38702786/166954013-6f73ae9f-0619-4395-9719-10a500e70bef.png)
+![Picture2](https://user-images.githubusercontent.com/38702786/166992566-697d2a56-1387-4b9d-b2ec-1cfbcbd44263.png)
+![Picture1](https://user-images.githubusercontent.com/38702786/166992563-5d0de4d3-3ae7-4915-b235-222e2b8861b2.png)
+
 
