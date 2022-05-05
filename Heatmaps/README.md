@@ -47,7 +47,7 @@ Name output heatmap 1,name output heatmap 2,Name output heatmap 3: <str> Comma s
 Black/white max value,Red/blue max value: Black/ white max value options are "max" or avgx<int> or avgy<int>. "max" is the largest value present in the heatmap. avgx<int/float> is the average of the heatmap times an integer. avgy<int/float> is the average of the heatmap divided by an integer. For Red/blue max value, the only option is <int/float> chosen by the user. Both the max and min values are set to this number.  
 Black and white heatmaps, the darkest pixel is assigned to the max value indicated while white is zero. A gradient of white to black is proporionally determined for the rest of the values in the heatmap. Red and blue heatmaps, the darkest red and blue pixel is assigned to the max value indicated while white is zero. The color for positive numbers are determined proportionally in the white to red gradient while the colors for negative colors are determined proportionally in the white to blue gradient.
 
-Vertical average: <int> NUmber of rows to be vertically averaged.
+Vertical average: <int> Number of rows to be vertically averaged.
 
 Output directory: <str> The output heatmaps will be deposited in this path. 
 
