@@ -51,7 +51,7 @@ def main(args):
     # Sort dataframe by fragment size (small->big)
     df_bedtools_filtered = df_bedtools.sort_values(by=["Fragment_size"], ascending=True, ignore_index=True)
 
-    # Vectorize to add a column that adds a list per row containing 1 for each base convered by the fragment
+    # Add a column with an array per row containing 1 for each base convered by the fragment
     def value_per_base(row):
         # make an array of size of the region to be analyzed
         np_array = np.zeros([region_size])
