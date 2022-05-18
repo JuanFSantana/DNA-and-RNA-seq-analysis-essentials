@@ -19,41 +19,24 @@ Numpy: https://pypi.org/project/numpy/
 
 Matplotlib: https://matplotlib.org/stable/users/installing/index.html
 
-# Example of arguments #
+# Example command usage #
 ```
-python frag_center.py <File> \
-                      <Fragment lengths> \
-                      <Black values> \
-                      <Vertical average> \
-                      <Output directory> \
-                      <Heatmap width> \
-
-Example command usage: 
-python frag_center.py plusminus100.bed \
-                      all,20-40,70-80 \
-                      avgx2,max \
-                      10 \
-                      /Desktop/Heatmaps \
-                      3
+python frag_center.py <arguments.txt> 
 
 ```
-# Parameter description #
+# Please provide a paramter.txt file #
+## Parameter description ##
 ```
-File: <str> file formatted as described above.
-
-Fragment lengths: Comma separated fragment lengths to be used for calculating the centers. The options can be a <str> all and/or <int>-<int>.
-
-Black values: Max value optionalities are "max" or avgx<int> or avgy<int>. "max" is the largest value present in the heatmap. avgx<int/float> is the average of the heatmap times an integer. avgy<int/float> is the average of the heatmap divided by an integer. The darkest pixel is assigned to the max value indicated while white is zero. A gradient of white to black is proporionally determined for the rest of the values in the heatmap.
-
-Vertical average: <int> Number of rows to be vertically averaged.
-
-Output directory: <str> The output heatmaps will be deposited in this path. 
-
-Heatmap width: <int> The number of pixels per base position.
+PATH=<str> path to the file formatted as described above.
+OUTPUT_DIR=<str> path to ouput directory.
+FRAG_SIZE= <int>-<int> dashed separated integers of range of fragment sizes
+BLACK_MAX= <int> the average value in the heatmap will be calculated. The max black value will be set as the average times the BLACK_MAX. The darkest pixel is assigned             to the max value indicated while white is zero. A gradient of white to black is proporionally determined for the rest of the values in the heatmap.
+VERTICAL_AVG= <int> Number of rows to be vertically averaged.
+WIDTH= <int> The number of pixels per base position.
 ```
 Output from example command usage: TBP-DFF-Seq data from [Spector et al., 2022](https://www.nature.com/articles/s41467-022-29739-x) for a +/- 100 bp region relative to the TSS of 10,273 transcription start regions (TSRs) identified here xxxxxxxxxxx.
 
-Heatmaps: frag.length 20-40, black.val avgx2 | frag.length 20-40, black.val max | frag.length 70-80, black.val avgx2 | frag.length 70-80, black.val max | frag.length all, black.val avgx2 | frag.length all, black.val max 
+Heatmaps: FRAG_SIZE 20-40, BLACK_MAX 10 | FRAG_SIZE 20-40, BLACK_MAX 1 | FRAG_SIZE 70-80, BLACK_MAX 10 | FRAG_SIZE 70-80, BLACK_MAX 1 | FRAG_SIZE 0-500, BLACK_MAX 10 | FRAG_SIZE 0-500, BLACK_MAX 1 
 
 ![20 40 avgx2](https://user-images.githubusercontent.com/38702786/166954004-c60c4ae2-de57-4450-80ba-ecd488d1b0a4.png)
 ![20 40 max](https://user-images.githubusercontent.com/38702786/166954007-63346351-24a6-40e2-bb51-b14501cf9496.png)
