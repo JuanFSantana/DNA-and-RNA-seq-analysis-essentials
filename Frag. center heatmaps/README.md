@@ -9,7 +9,7 @@ The input file should be a tab delimited file that contains the start and end of
 
 
 # Behavior #
-The fragment centers are determined. Fragment lengths and black values are optionalities. Heatmaps of fragment centers of fragments of user chosen length will be created with user chosen black values. 
+The fragment centers are determined from fragments of user chosen lengths to and heatmaps are created. Fragment lengths and black values are optionalities.
 
 # Dependencies #
 ### Python libraries ###
@@ -32,6 +32,15 @@ FRAG_SIZE= <int>-<int> dashed separated integers of range of fragment sizes
 BLACK_MAX= <int> the average value in the heatmap will be calculated. The max black value will be set as the average times the BLACK_MAX. The darkest pixel is assigned             to the max value indicated while white is zero. A gradient of white to black is proporionally determined for the rest of the values in the heatmap.
 VERTICAL_AVG= <int> Number of rows to be vertically averaged.
 WIDTH= <int> The number of pixels per base position.
+```
+# Example parameter.txt #
+```
+PATH=/Users/Desktop/plusminus100.bed
+OUTPUT_DIR=/Users/Heatmaps
+FRAG_SIZE=50-100
+BLACK_MAX=2
+VERTICAL_AVG=10
+WIDTH=1 
 ```
 Output from example command usage: TBP-DFF-Seq data from [Spector et al., 2022](https://www.nature.com/articles/s41467-022-29739-x) for a +/- 100 bp region relative to the TSS of 10,273 transcription start regions (TSRs) identified here xxxxxxxxxxx.
 
