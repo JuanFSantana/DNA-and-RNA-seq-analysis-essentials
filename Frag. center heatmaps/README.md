@@ -29,9 +29,9 @@ python frag_center.py <arguments.txt>
 PATH=<str> path to the file formatted as described above.
 OUTPUT_DIR=<str> path to ouput directory.
 FRAG_SIZE=<int>-<int> dashed separated integers of range of fragment sizes
-BLACK_MAX=<int> the average value in the heatmap will be calculated. The max black value will be set as the average times the BLACK_MAX. The darkest pixel is assigned             to the max value indicated while white is zero. A gradient of white to black is proporionally determined for the rest of the values in the heatmap.
-VERTICAL_AVG=<int> Number of rows to be vertically averaged.
-WIDTH=<int> The number of pixels per base position.
+BLACK_MAX=<int> average value in the heatmap will be calculated. The max black value will be set as the average times the BLACK_MAX. The darkest pixel is assigned             to the max value indicated while white is zero. A gradient of white to black is proporionally determined for the rest of the values in the heatmap.
+VERTICAL_AVG=<int> number of rows to be vertically averaged.
+WIDTH=<int> number of pixels per base position.
 ```
 # Example parameter.txt #
 ```
