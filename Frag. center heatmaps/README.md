@@ -22,7 +22,6 @@ Matplotlib: https://matplotlib.org/stable/users/installing/index.html
 # Example command usage #
 ```
 python frag_center.py <arguments.txt> 
-
 ```
 # Please provide a paramter.txt file #
 ## Parameter description ##
