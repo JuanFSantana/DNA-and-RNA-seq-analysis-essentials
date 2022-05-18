@@ -35,8 +35,8 @@ WIDTH= <int> The number of pixels per base position.
 ```
 # Example parameter.txt #
 ```
-PATH=/Users/Desktop/plusminus100.bed
-OUTPUT_DIR=/Users/Heatmaps
+PATH=\Users\Desktop\plusminus100.bed
+OUTPUT_DIR=\Users\Desktop\Heatmaps
 FRAG_SIZE=50-100
 BLACK_MAX=2
 VERTICAL_AVG=10
