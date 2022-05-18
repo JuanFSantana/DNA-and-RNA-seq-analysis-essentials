@@ -36,11 +36,10 @@ WIDTH= <int> The number of pixels per base position.
 ```
 Output from example command usage: TBP-DFF-Seq data from [Spector et al., 2022](https://www.nature.com/articles/s41467-022-29739-x) for a +/- 100 bp region relative to the TSS of 10,273 transcription start regions (TSRs) identified here xxxxxxxxxxx.
 
-Heatmaps: FRAG_SIZE 20-40, BLACK_MAX 10 | FRAG_SIZE 20-40, BLACK_MAX 1 | FRAG_SIZE 70-80, BLACK_MAX 10 | FRAG_SIZE 70-80, BLACK_MAX 1 | FRAG_SIZE 0-500, BLACK_MAX 10 | FRAG_SIZE 0-500, BLACK_MAX 1 
+Heatmaps: FRAG_SIZE 20-40, BLACK_MAX 10 | FRAG_SIZE 20-40, BLACK_MAX 1 | FRAG_SIZE 70-80, BLACK_MAX 10 | FRAG_SIZE 70-80, BLACK_MAX 1 
 
 ![20 40 avgx2](https://user-images.githubusercontent.com/38702786/166954004-c60c4ae2-de57-4450-80ba-ecd488d1b0a4.png)
 ![20 40 max](https://user-images.githubusercontent.com/38702786/166954007-63346351-24a6-40e2-bb51-b14501cf9496.png)
 ![70 80 avgx22](https://user-images.githubusercontent.com/38702786/166954008-297aaf9a-f135-41b9-ae7b-8f66ca999870.png)
 ![70 80 max](https://user-images.githubusercontent.com/38702786/166954010-232013bb-4ecf-42ad-8fc3-8612f66e188e.png)
-![all avgx2](https://user-images.githubusercontent.com/38702786/166954011-e6231345-b7be-44a3-8d29-8816aff6dab1.png)
-![all max](https://user-images.githubusercontent.com/38702786/166954013-6f73ae9f-0619-4395-9719-10a500e70bef.png)
+
