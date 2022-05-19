@@ -7,7 +7,7 @@ import numpy as np
 import os
 from matplotlib import pyplot as plt
 
-class heatmap:
+class Heatmap:
     def __init__(self, PATH, OUTPUT_DIR, FRAG_SIZE, BLACK_MAX, VERTICAL_AVG, WIDTH=1):
         self.FRAG_SIZE = FRAG_SIZE
         self.BLACK_MAX = int(BLACK_MAX)
@@ -110,7 +110,7 @@ class heatmap:
 def main():
     arguments = getArgs()
     # create object
-    heat = heatmap(arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5])
+    heat = Heatmap(arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5])
     table = heat.modifyTable()
     originalTable, centers = heat.findCenters(table)
     matrix = makeDict(originalTable, centers)
