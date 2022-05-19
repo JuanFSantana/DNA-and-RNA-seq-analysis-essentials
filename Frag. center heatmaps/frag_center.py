@@ -101,7 +101,7 @@ class Heatmap:
         vmin = 0
         cmap = 'binary'
         
-        image_path = os.path.join(self.OUTPUT_DIR,"_".join([r"FragCenter", self.FRAG_SIZE,"MAX", str(corrfactor), "VertAvg", str(self.VERTICAL_AVG), "WIDTH", str(self.WIDTH), ".tiff"]))
+        image_path = os.path.join(self.OUTPUT_DIR,"_".join([r"FragCenter", self.FRAG_SIZE,"MAX", str(round(corrfactor,2)), "VertAvg", str(self.VERTICAL_AVG), "WIDTH", str(self.WIDTH), ".tiff"]))
 
         plt.imsave(fname=image_path, arr=array, vmin=vmin, vmax=vmax, cmap=cmap, format='tiff')    
         
