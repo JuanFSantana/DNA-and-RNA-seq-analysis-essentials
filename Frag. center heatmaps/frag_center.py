@@ -149,7 +149,6 @@ def makeDict(arrayDict,filtered_df_TBP_centers_coordinate):
             tsr_dict[tsr][int(right)] += 1
 
     dataframe = pd.DataFrame(tsr_dict).T  
-    dataframe.to_csv("used.csv")
     return dataframe
 
 if __name__ == '__main__':
