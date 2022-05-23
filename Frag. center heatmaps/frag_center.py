@@ -1,3 +1,11 @@
+# =============================================================================
+# with open("heatmap_arguments.txt", "a") as file:
+#     file.write("PATH=\n")
+#     file.write("Black_max=\n")
+#     file.write("Color_max=\n")
+#     file.write("Vertical_avg=\n")
+#     file.write("Width=\n")
+# =============================================================================
 """
 @author: Juan F. Santana, Ph.D.
 """
@@ -8,13 +16,16 @@ import os
 from matplotlib import pyplot as plt
 
 class Heatmap:
-    def __init__(self, PATH, OUTPUT_DIR, FRAG_SIZE, BLACK_MAX, VERTICAL_AVG, WIDTH=1):
+    def __init__(self, PATH, OUTPUT_DIR, FRAG_SIZE, BLACK_MAX, VERTICAL_AVG, WIDTH):
         self.FRAG_SIZE = FRAG_SIZE
         self.BLACK_MAX = int(BLACK_MAX)
         self.VERTICAL_AVG = int(VERTICAL_AVG)
         self.WIDTH = int(WIDTH)
         self.PATH = PATH
         self.OUTPUT_DIR = OUTPUT_DIR
+
+    def __str__(self):
+       return(f'PATH:{self.PATH}\nOUTPUT_DIR:{self.OUTPUT_DIR}\nFRAG_SIZE:{self.FRAG_SIZE}\nBLACK_MAX:{self.BLACK_MAX}\nVERTICAL_AVG:{self.VERTICAL_AVG}\nWIDTH:{self.WIDTH}')
         
     def modifyTable(self):
         df_bedtools = pd.read_csv(self.PATH, sep="\t", header=None)
@@ -107,10 +118,24 @@ class Heatmap:
         
         plt.close()      
 
+    @classmethod
+    def get(cls):
+        with open("heatmap_arguments.txt", "r") as file:
+            arguments = []
+            
+            for strings in file.readlines():
+                lines = re.split(r'=', strings.strip())
+                
+                if len(lines) != 2:
+                    raise ValueError("Number of arguments is incorrect")
+                            
+                for row_arg in lines[1:]:
+                    arguments.append(row_arg.strip())
+        
+        return cls(arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5])
+
 def main():
-    arguments = getArgs()
-    # create object
-    heat = Heatmap(arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5])
+    heat = Heatmap.get()
     table = heat.modifyTable()
     originalTable, centers = heat.findCenters(table)
     matrix = makeDict(originalTable, centers)
@@ -118,21 +143,6 @@ def main():
     heatmap_intensity = heat.colorHeatmap(averaged_matrix)
     output_heatmap = heat.makeHeatmap(heatmap_intensity, averaged_matrix)
 
-    
-def getArgs():
-    with open("heatmap_arguments.txt", "r") as file:
-        arguments = []
-        
-        for strings in file.readlines():
-            lines = re.split(r'=', strings.strip())
-            
-            if len(lines) != 2:
-                 raise ValueError("Number of arguments is incorrect")
-                        
-            for row_arg in lines[1:]:
-                arguments.append(row_arg.strip())
-
-    return arguments
 
 def makeDict(arrayDict,filtered_df_TBP_centers_coordinate):
     # number of base positions
@@ -150,6 +160,6 @@ def makeDict(arrayDict,filtered_df_TBP_centers_coordinate):
 
     dataframe = pd.DataFrame(tsr_dict).T  
     return dataframe
-
+    
 if __name__ == '__main__':
     main()
