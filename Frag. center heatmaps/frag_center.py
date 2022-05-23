@@ -79,9 +79,23 @@ class Heatmap:
         
             df_TBP_centers_coordinate['Position_Right'] = np.select(conditions_right, choices_right, default=-1)
 
-            final_df = df_TBP_centers_coordinate.loc[(df_bedtools['Fragment_size'] >= int(sizes[0])) & (df_TBP_centers_coordinate['Fragment_size'] <= int(sizes[1])) & (df_TBP_centers_coordinate['Position_Left'] > -1)].reset_index(drop=True)
+            filtered_df_TBP_centers_coordinate = df_TBP_centers_coordinate.loc[(df_bedtools['Fragment_size'] >= int(sizes[0])) & (df_TBP_centers_coordinate['Fragment_size'] <= int(sizes[1])) & (df_TBP_centers_coordinate['Position_Left'] > -1)].reset_index(drop=True)
+            
+            # number of base positions
+            num_bases = int(df_TBP_centers_coordinate["End"][0] - df_TBP_centers_coordinate["Start"][0])
+        
+        tsr_dict = {tsr: [0]*num_bases for tsr in df_TBP_centers_coordinate["TSR"].values}
+        # sum the number of times a frag. center is present at a given position for a TSR/gene
+        for tsr,left,right in zip(filtered_df_TBP_centers_coordinate["TSR"],filtered_df_TBP_centers_coordinate["Position_Left"], filtered_df_TBP_centers_coordinate["Position_Right"]):
+            if left == right:
+                tsr_dict[tsr][int(left)] += 2
 
-        return df_TBP_centers_coordinate,final_df
+            else:
+                tsr_dict[tsr][int(left)] += 1
+                tsr_dict[tsr][int(right)] += 1
+
+        dataframe = pd.DataFrame(tsr_dict).T 
+        return dataframe
     
     def rollingAverage(self, data):
         # Rolling average
@@ -103,16 +117,13 @@ class Heatmap:
         vmax = corrfactor
         vmin = 0
         cmap = 'binary'
-        
         image_path = os.path.join(self.OUTPUT_DIR,"_".join([r"FragCenter", self.FRAG_SIZE,"MAX", str(round(corrfactor,2)), "VertAvg", str(self.VERTICAL_AVG), "WIDTH", str(self.WIDTH), ".tiff"]))
-
-        plt.imsave(fname=image_path, arr=array, vmin=vmin, vmax=vmax, cmap=cmap, format='tiff')    
-        
+        plt.imsave(fname=image_path, arr=array, vmin=vmin, vmax=vmax, cmap=cmap, format='tiff')            
         plt.close()      
 
     @classmethod
-    def get(cls):
-        with open("heatmap_arguments.txt", "r") as file:
+    def get(cls, txt_file):
+        with open(txt_file, "r") as file:
             arguments = []
             
             for strings in file.readlines():
@@ -123,35 +134,16 @@ class Heatmap:
                             
                 for row_arg in lines[1:]:
                     arguments.append(row_arg.strip())
-        
         return cls(arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5])
 
 def main():
-    heat = Heatmap.get()
+    heat = Heatmap.get("heatmap_arguments.txt")
     table = heat.modifyTable()
-    originalTable, centers = heat.findCenters(table)
-    matrix = makeDict(originalTable, centers)
+    matrix = heat.findCenters(table)
     averaged_matrix = heat.rollingAverage(matrix)
     heatmap_intensity = heat.colorHeatmap(averaged_matrix)
     output_heatmap = heat.makeHeatmap(heatmap_intensity, averaged_matrix)
 
-
-def makeDict(arrayDict,filtered_df_TBP_centers_coordinate):
-    # number of base positions
-    num_bases = int(arrayDict["End"][0] - arrayDict["Start"][0])
-    
-    tsr_dict = {tsr: [0]*num_bases for tsr in arrayDict["TSR"].values}
-    # sum the number of times a frag. center is present at a given position for a TSR/gene
-    for tsr,left,right in zip(filtered_df_TBP_centers_coordinate["TSR"],filtered_df_TBP_centers_coordinate["Position_Left"], filtered_df_TBP_centers_coordinate["Position_Right"]):
-        if left == right:
-            tsr_dict[tsr][int(left)] += 2
-
-        else:
-            tsr_dict[tsr][int(left)] += 1
-            tsr_dict[tsr][int(right)] += 1
-
-    dataframe = pd.DataFrame(tsr_dict).T  
-    return dataframe
     
 if __name__ == '__main__':
     main()
