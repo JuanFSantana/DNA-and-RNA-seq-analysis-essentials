@@ -1,11 +1,3 @@
-# =============================================================================
-# with open("heatmap_arguments.txt", "a") as file:
-#     file.write("PATH=\n")
-#     file.write("Black_max=\n")
-#     file.write("Color_max=\n")
-#     file.write("Vertical_avg=\n")
-#     file.write("Width=\n")
-# =============================================================================
 """
 @author: Juan F. Santana, Ph.D.
 """
