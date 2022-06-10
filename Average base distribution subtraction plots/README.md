@@ -39,7 +39,7 @@ python abd.py <File name> \
 
 Example command usage: 
 python abd_substraction.py trial_truQuant_master.txt \
-                           TBP,TAF1,TFIIB \
+                           TBP,TAF1,TFIIB,TAF4,XPB \
                            -100+100 \
                            20
 ```
