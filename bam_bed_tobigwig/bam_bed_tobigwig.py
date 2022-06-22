@@ -1,5 +1,5 @@
 """
-Juan F. Santana, Ph.D.
+@author: Juan F. Santana, Ph.D.
 
 """
 
