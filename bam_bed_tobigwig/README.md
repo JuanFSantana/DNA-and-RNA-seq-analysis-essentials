@@ -1,8 +1,9 @@
 # bam_bed_tobigwig.py #
-This script will create bigWig tracks of fragments of user specified sizes from BAM or BED files.
+This script will create bigWig tracks of fragments of user specified sizes from BAM or BED files. Best used for data from ChIP-seq as strandedness is not taken into account when making the tracks. 
 
 # File requirements #
-A BAM or BED file and a chromsome size file.   
+1) BAM or BED file
+2) chromsome size file.   
 
 # Behavior #
 The user can specifiy multiple tracks to be created from different fragment sizes. The output of this script is a directory named 'bigWig' containing each of the bigWig tracks.
@@ -12,6 +13,11 @@ The user can specifiy multiple tracks to be created from different fragment size
 Pandas: https://pypi.org/project/pandas/
 
 Numpy: https://pypi.org/project/numpy/
+
+### Programs ###
+bedtools: https://bedtools.readthedocs.io/en/latest/index.html
+
+samtools: http://www.htslib.org/
 
 # Example of arguments #
 ```
@@ -28,17 +34,15 @@ python bam_bed_tobigwig.py test.bam hg38.chrom.sizes \
 ```
 # Parameter description #
 ```
-file name: <str> tab delimited file that at a minimum contains a column to sort the file by and a column with the sequences
+BAM/BED file: <str> Either BAM or BED file can be used as input. The BAM file does not have to be sorted.
 
-Header column to sort by: <str> Comma separated headers for every comlumn use for sorting. In the example run above, the input file will be first sorted by TBP fold change and the base distributions calculated for each percentage slicing before moving on to sort by TAF1 and so on.
+Chromosome size file: <str> The same chromosome size file used for mapping. 
 
-Header column with sequences: <str> The header of the sequence column. The sequences can be of any length as long as they are even.
+Fragment size intervals: <int> Space delimited pair of numbers that indicate the fragment sizes to filter the BAM or BED file by to make the bigWig tracks. The lower and upper bound of the intervals are inclusive. Multiple intervals at once can serve as input (as shown in the example above).
 
-Percentages for slicing: <int> Commma separated pair of percentages to which the calculations will be restricted to. In the example run above, the input file will be first sorted by TBP fold change and the base distributions calculated for sequences within 70-80%, then 90-100% before moving on to sort by TAF1 and so on.
+Threads: <int> Threads to use.
+
+Spike-in/normalization factor: <float> Each count value per base is multiplied by this factor.
 ```
 
-The dataset "trial_truQuant_master.txt" from XXXX can be downloaded [here](https://github.com/JuanFSantana/DNA-and-RNA-seq-analysis-essentials/blob/main/Average%20base%20distribution%20plots/trial_truQuant_master.txt) if interested in running the example command line. 
 
-Example output: Line plot of the base distributions of a +/- 100bp region for different fold change percentage groups transcription start regions (TSRs) as explained here XXXXXXXX. Note that the output excel file contains multiple sheets for each percentage group.
-
-![Picture8](https://user-images.githubusercontent.com/38702786/166021962-6fdf9b5e-c4e0-4d4b-9eb0-6511d47459db.png)
