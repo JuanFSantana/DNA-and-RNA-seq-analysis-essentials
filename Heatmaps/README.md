@@ -53,7 +53,7 @@ Output directory: <str> The output heatmaps will be deposited in this path.
 
 Heatmap width: <int> The number of pixels per base position.
 ```
-Example output: control, experimental and fold change (log2) heatmaps for a +/- 100 bp region relative to the TSS of 10,273 transcription start regions (TSRs) identified here xxxxxxxxxxx.
+Example output: control, experimental and fold change (log2) heatmaps for a +/- 100 bp region relative to the TSS of 10,273 transcription start regions (TSRs) identified here (paper under revision).
 
 Black/white max value, Red/blue max value = avgx4.1,1.2
 
