@@ -42,7 +42,7 @@ BLACK_MAX=2
 VERTICAL_AVG=10
 WIDTH=1 
 ```
-Output from example command usage: TBP-DFF-Seq data from [Spector et al., 2022](https://www.nature.com/articles/s41467-022-29739-x) for a +/- 100 bp region relative to the TSS of 10,273 transcription start regions (TSRs) identified here xxxxxxxxxxx.
+Output from example command usage: TBP-DFF-Seq data from [Spector et al., 2022](https://www.nature.com/articles/s41467-022-29739-x) for a +/- 100 bp region relative to the TSS of 10,273 transcription start regions (TSRs) identified here (paper under revision).
 
 Heatmaps: FRAG_SIZE 20-40, BLACK_MAX 10 | FRAG_SIZE 20-40, BLACK_MAX 1 | FRAG_SIZE 70-80, BLACK_MAX 10 | FRAG_SIZE 70-80, BLACK_MAX 1 
 
