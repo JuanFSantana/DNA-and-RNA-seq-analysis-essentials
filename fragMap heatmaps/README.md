@@ -47,7 +47,7 @@ Output directory: <str> The output heatmaps will be deposited in this path.
 
 Heatmap width: <int> The number of pixels per base position.
 ```
-Output from example command usage: TBP-DFF-Seq data from [Spector et al., 2022](https://www.nature.com/articles/s41467-022-29739-x) for a +/- 100 bp region relative to the TSS of 10,273 transcription start regions (TSRs) identified here xxxxxxxxxxx.
+Output from example command usage: TBP-DFF-Seq data from [Spector et al., 2022](https://www.nature.com/articles/s41467-022-29739-x) for a +/- 100 bp region relative to the TSS of 10,273 transcription start regions (TSRs) identified here (paper under revision).
 
 Heatmaps: frag.length 20-200, black.val max  
 
