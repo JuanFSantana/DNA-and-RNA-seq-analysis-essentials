@@ -1,5 +1,5 @@
 # fragmap.py #
-This script will create fragment heatmaps as described here [Spector et al., 2022](https://www.nature.com/articles/s41467-022-29739-x) and here xxxxxx. Best used for unstranded data such as ChIP-seq.
+This script will create fragment heatmaps as described here [Spector et al., 2022](https://www.nature.com/articles/s41467-022-29739-x) and here [Santana et al., 2022](https://academic.oup.com/nar/advance-article/doi/10.1093/nar/gkac678/6659871?guestAccessKey=88024805-7d8e-4421-a032-dbef1c737757). Best used for unstranded data such as ChIP-seq.
 
 # File requirements #
 The input file should be a tab delimited file that contains the start and end of fragments/reads that overlap to the region of interest where the center is the feature under study (e.g. TSSs). [Bedtools intersect](https://bedtools.readthedocs.io/en/latest/content/tools/intersect.html) should be used to determine this overlap and obtain the following required type file required as input for **fragmap.py**:
