@@ -55,5 +55,5 @@ Percentages to segment the dataset: <int> A percentage to which the analysis wil
 Region to slice: <int> The region of the sequence to be sliced and kept reltive to the center of the sequence. In the example above, the center of the sequence is in the +1 position, the transcription start site (TSS), and the regions -36 to -19 and -5 to +5 relative to the TSS will be sliced and kept.
 ```
 
-The dataset "trial_truQuant_master.txt" from (paper under revision) can be downloaded [here](https://github.com/JuanFSantana/DNA-and-RNA-seq-analysis-essentials/blob/main/Average%20base%20distribution%20plots/trial_truQuant_master.txt) if interested in running the example command line.    
+The dataset "trial_truQuant_master.txt" from [Santana et al., 2022](https://academic.oup.com/nar/advance-article/doi/10.1093/nar/gkac678/6659871?guestAccessKey=88024805-7d8e-4421-a032-dbef1c737757) can be downloaded [here](https://github.com/JuanFSantana/DNA-and-RNA-seq-analysis-essentials/blob/main/Average%20base%20distribution%20plots/trial_truQuant_master.txt) if interested in running the example command line.    
 
