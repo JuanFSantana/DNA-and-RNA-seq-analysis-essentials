@@ -7,8 +7,7 @@ Example output: PolII_fragMap_20-400_Max_68609_X_1 0_Y_4 (Pol II DFF-Seq perform
 
 
 
-
-# fragmap.py #
+# Older version: fragmap.py #
 This script will create fragment heatmaps as described here [Spector et al., 2022](https://www.nature.com/articles/s41467-022-29739-x) and here [Santana et al., 2022](https://academic.oup.com/nar/advance-article/doi/10.1093/nar/gkac678/6659871?guestAccessKey=88024805-7d8e-4421-a032-dbef1c737757). Best used for unstranded data such as ChIP-seq.
 
 # File requirements #
