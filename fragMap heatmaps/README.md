@@ -1,3 +1,13 @@
+# I have created an updated version of the fragMap program with more capabilities and much faster #
+
+Please see: https://github.com/P-TEFb/fragMap
+
+Example output: PolII_fragMap_20-400_Max_68609_X_1 0_Y_4 (Pol II DFF-Seq performed on HFF cells ([Spector et al., 2022](https://www.nature.com/articles/s41467-022-29739-x)) over +/- 1000 bp regions from the MaxTSS of 12,229 genes obtained from PRO-Cap performed on HFF cells ([Nilson et al., 2022](https://doi.org/10.1093/nar/gkac678))).
+![PolII_fragMap_Custom_20-400_Max_68609_X_1 0_Y_4 0_](https://user-images.githubusercontent.com/38702786/190675335-1b8271ef-a0f7-449e-9ac3-aeee7dca6611.png)
+
+
+
+
 # fragmap.py #
 This script will create fragment heatmaps as described here [Spector et al., 2022](https://www.nature.com/articles/s41467-022-29739-x) and here [Santana et al., 2022](https://academic.oup.com/nar/advance-article/doi/10.1093/nar/gkac678/6659871?guestAccessKey=88024805-7d8e-4421-a032-dbef1c737757). Best used for unstranded data such as ChIP-seq.
 
