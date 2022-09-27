@@ -11,7 +11,7 @@ Example file:
 
 
 # Behavior #
-Two input files, control and experimental, are required with the format described above. The script has optionality for black/white and blue/red max color levels, as well as calculation of the vertical and horizontal averages and repetitions.
+Two input files, control and experimental, are required with the format described above. The script has optionality for black/white and blue/red max color levels, as well as calculation of the vertical (y axis) average and horizontal (x axis) repetitions.
 
 # Dependencies #
 ### Python libraries ###
