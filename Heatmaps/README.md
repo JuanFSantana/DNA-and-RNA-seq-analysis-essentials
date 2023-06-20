@@ -80,7 +80,9 @@ regions: <str> Bed file of genomic regions of chosen length with the format desc
 
 <p float="left">
     <img src="https://github.com/JuanFSantana/DNA-and-RNA-seq-analysis-essentials/blob/main/Heatmaps/images/Cluster-10-chip-H3K4me3-Max-10.0-X-3.0-Y-1.0.png?raw=true" width="250" height="400" />
-    <em>first</em>
+    <em>Control-H4K4me3</em>
     <img src="https://github.com/JuanFSantana/DNA-and-RNA-seq-analysis-essentials/blob/main/Heatmaps/images/Cluster-10-chip-2h-Max-10.0-X-3.0-Y-1.0.png?raw=true" width="250" height="400" />
+    <em>Treatment-H4K4me3</em>
     <img src="https://github.com/JuanFSantana/DNA-and-RNA-seq-analysis-essentials/blob/main/Heatmaps/images/Cluster-10-chip-H3K4me3-vs-2h-Max-1.67-X-3.0-Y-1.0.png?raw=true" width="250" height="400" />
+    <em>log2FC-H4K4me3</em>
 </p>
