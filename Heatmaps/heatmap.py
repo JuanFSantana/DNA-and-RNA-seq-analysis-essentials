@@ -1,135 +1,551 @@
-"""
-@author: Juan F. Santana, Ph.D.
-"""
-
-import pandas as pd
-import numpy as np
-import os
+import argparse
+import concurrent.futures
 import sys
-from matplotlib import pyplot as plt
+from pathlib import Path
+from typing import List, Tuple
+
+import numpy as np
+import pandas as pd
+import pyBigWig
+
+from utils.check_bed_utils import BedFile
+from utils.heatmap_utils import Heatmap, HeatmapAnalysisType, HeatmapColorType
+from utils.quantify_utils import (
+    TypeAnalysis,
+    MatrixAnalysis,
+    Quantification,
+    kmeans_clustering,
+)
+
+
+def imaging(heatmap_obj: Heatmap):
+    """
+    Creates a heatmap image using the input Heatmap object's image method.
+
+    Parameters:
+    heatmap_obj (Heatmap): An instance of a Heatmap object.
+
+    Returns:
+    Object: The image object created by the heatmap's image method.
+    """
+    print(f"Creating heatmaps for {heatmap_obj.identifier}...")
+    return heatmap_obj.image()
+
+
+def making_images(heatmap_obj: Heatmap) -> None:
+    """
+    Concurrently creates images for each Heatmap object.
+
+    Parameters:
+    heatmap_obj (Heatmap): An instance of a Heatmap object.
+
+    Returns:
+    None
+    """
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        results = executor.map(imaging, heatmap_obj)
+
+
+def modifiy_base_per_pixel(otro_tres_tuple):
+    """
+    Modifies a matrix based on the width and height provided. It supports repeating or averaging the matrix
+    both vertically and horizontally.
+
+    Parameters:
+    otro_tres_tuple (Tuple): A tuple containing a DataFrame, height, and width.
+
+    Returns:
+    np.ndarray: The modified matrix as a numpy array.
+    """
+    table, height, width = otro_tres_tuple
+
+    # Aspect of height and width
+    if height >= 1 and width >= 1:
+        verically_repeated = table.reindex(table.index.repeat(height))
+        horizontally_repeated = verically_repeated.reindex(
+            verically_repeated.columns.repeat(width), axis="columns"
+        )
+        final_matrix = horizontally_repeated
+
+    elif height >= 1 and width < 1:
+        # average first
+        # pixels per base
+        width_rolling_avg = int(1 / width)
+        # rolling average and select rows containing the average window HORIZONTALLY
+        df_matrix_width_avg = (
+            table.rolling(width_rolling_avg, axis=1).mean().dropna(axis=1, how="any")
+        )
+        avg_matrix = df_matrix_width_avg[
+            df_matrix_width_avg.columns[::width_rolling_avg]
+        ]
+        # repeat array vertically
+        verically_repeated = avg_matrix.reindex(avg_matrix.index.repeat(height))
+        final_matrix = verically_repeated
+
+    elif height < 1 and width < 1:
+        height_rolling_avg = int(1 / height)
+        width_rolling_avg = int(1 / width)
+        # rolling average and select rows containing the average window VERTICALLY
+        height_avg_matrix = (
+            table.rolling(height_rolling_avg, axis=0)
+            .mean()
+            .dropna(axis=0, how="any")
+            .iloc[::height_rolling_avg]
+        )
+        # rolling average and select rows containing the average window HORIZONTALLY
+        height_width_avg_matrix = (
+            height_avg_matrix.rolling(width_rolling_avg, axis=1)
+            .mean()
+            .dropna(axis=1, how="any")
+        )
+        avg_matrix = height_width_avg_matrix[
+            height_width_avg_matrix.columns[::width_rolling_avg]
+        ]
+        final_matrix = avg_matrix
+
+    elif height < 1 and width >= 1:
+        # average first
+        # pixels per base
+        height_rolling_avg = int(1 / height)
+        # rolling average and select rows containing the average window VERTICALLY
+        height_avg_matrix = (
+            table.rolling(height_rolling_avg, axis=0)
+            .mean()
+            .dropna(axis=0, how="any")
+            .iloc[::height_rolling_avg]
+        )
+        # repeat array horizontally
+        horizontally_repeated = height_avg_matrix.reindex(
+            height_avg_matrix.columns.repeat(width), axis="columns"
+        )
+        final_matrix = horizontally_repeated
+    print("Averaging/repeating matrix")
+    return final_matrix.to_numpy()
+
+
+def matrix_division(numerator, denominator):
+    """
+    Calculates the log2 fold change of a division operation between two arrays.
+
+    Parameters:
+    numerator (np.ndarray): The numerator array.
+    denominator (np.ndarray): The denominator array.
+
+    Returns:
+    np.ndarray: Array representing log2 fold change.
+    """
+    fold_change_array = np.divide(
+        numerator,
+        denominator,
+        out=np.array(numerator),
+        where=denominator != 0,
+        dtype=float,
+    )
+    division_log2_array = np.log2(
+        fold_change_array,
+        out=np.array(fold_change_array),
+        where=fold_change_array != 0,
+        dtype=float,
+    )
+    print("\nDone calculating log2 fold change")
+
+    return division_log2_array
+
+
+def conccurent_matrix_maker(args) -> None:
+    """
+    Concurrently creates matrices using the input Quantification object and the specified number of rows.
+
+    Parameters:
+    args (Tuple): A tuple containing a Quantification object and the number of rows.
+
+    Returns:
+    None
+    """
+    quant_obj, num_rows = args
+    return quant_obj.make_matrix_and_get_total_counts(num_rows)
+
+
+def make_matrix(
+    nume_obj: Quantification, deno_obj: Quantification, num_rows: int
+) -> None:
+    """
+    Makes two matrices concurrently using the specified Quantification objects and the number of rows.
+    Then, it assigns the resulting matrices and total counts to the respective Quantification objects.
+
+    Parameters:
+    nume_obj (Quantification): The Quantification object for the numerator.
+    deno_obj (Quantification): The Quantification object for the denominator.
+    num_rows (int): The number of rows for the matrices.
+
+    Returns:
+    None
+    """
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        results = list(
+            executor.map(
+                conccurent_matrix_maker,
+                [(obj, num_rows) for obj in [nume_obj, deno_obj]],
+            )
+        )
+    # results is a list of tuples, where each tuple contains a matrix and total counts
+    nume_obj.matrix, nume_obj.total_matrix_counts = results[0]
+    deno_obj.matrix, deno_obj.total_matrix_counts = results[1]
+
+
+def parse_args():
+    """
+    Get arguments
+    """
+
+    parser = argparse.ArgumentParser(
+        prog="create_heatmap.py",
+        description="Generates heatmaps of counts per base over a chosen genomic interval for control, experimental and log2FC",
+    )
+    parser.add_argument(
+        "regions",
+        type=str,
+        help="Bed file of genomic regions of chosen length. Gene/feature name or other identifier must be in the 4th column",
+    )
+    parser.add_argument(
+        "-numerator",
+        dest="numerator",
+        metavar="\b",
+        required=True,
+        type=str,
+        nargs="*",
+        help="Forward and reverse (in that order) bigwigs for condition to be used as numerator in log2FC",
+    )
+    parser.add_argument(
+        "-denominator",
+        dest="denominator",
+        metavar="\b",
+        required=True,
+        type=str,
+        nargs="*",
+        help="Forward and reverse (in that order) bigwigs for condition to be used as denominator in log2FC",
+    )
+    parser.add_argument(
+        "-mb",
+        dest="max_black_value",
+        metavar="\b",
+        default="default",
+        nargs="*",
+        help="Sets the chosen value as black, default is largest number in the matrix",
+    )
+    parser.add_argument(
+        "-mc",
+        dest="max_color_value",
+        metavar="\b",
+        default="default",
+        nargs="*",
+        help="Sets the chosen value as red/blue, default is absolute largest number in the matrix",
+    )
+    parser.add_argument(
+        "-chip",
+        dest="chip_data",
+        action="store_true",
+        default=False,
+        help="If bigwigs are ChIP-seq data, argument must be invoked",
+    )
+    parser.add_argument(
+        "-k",
+        dest="kmeans",
+        metavar="\b",
+        default=None,
+        nargs=1,
+        type=int,
+        help="Number of K-means clusters to be used for clustering the data",
+    )
+
+    parser.add_argument(
+        "-r",
+        dest="region_kmean",
+        metavar="\b",
+        nargs=2,
+        type=int,
+        help="Location in the regions file to be used for k-means clustering. The first argument is the start position and the second is the end position.\
+                            For example, in regions of 1000 bp, if you want to cluster the middle 500 bp, the arguments would be -r 250 750. ",
+    )
+
+    parser.add_argument(
+        "-y",
+        dest="y_axis",
+        metavar="\b",
+        type=float,
+        default=1.0,
+        help="Horizontal lines/bp for each row displayed, for example -y 1 is one horizontal line/region or gene; -y 0.1 is one averaged horizontal line/10 region or gene",
+    )
+    parser.add_argument(
+        "-x",
+        dest="x_axis",
+        metavar="\b",
+        type=float,
+        default=1.0,
+        help="Vertical lines/bp for each row displayed, for example -y 1 is one horizontal line/bp; -y 0.1 is one averaged horizontal line/10 bp",
+    )
+    parser.add_argument(
+        "-g",
+        dest="gamma",
+        metavar="\b",
+        type=float,
+        default=1.0,
+        help="Gamma correction",
+    )
+    parser.add_argument(
+        "-n",
+        dest="normalize",
+        action="store_true",
+        default=False,
+        help="If argument is invoked, the average total number of reads for all regions will be calculated between the numerator and denominator datasets and the reads per base will be normalized to this value",
+    )
+    parser.add_argument(
+        "-o",
+        dest="output_dir",
+        metavar="\b",
+        type=str,
+        required=True,
+        nargs=1,
+        help="Path to output",
+    )
+
+    parser.add_argument(
+        "-id",
+        dest="names",
+        metavar="\b",
+        type=str,
+        required=True,
+        nargs=2,
+        help="Image output names for numerator and denominator (in that order). The log2FC heatmaps will be named by combining the numerator and denominator file names",
+    )
+
+    args = parser.parse_args()
+
+    file_regions = args.regions
+    max_val = args.max_black_value
+    max_color = args.max_color_value
+    height = float(args.y_axis)
+    width = float(args.x_axis)
+    gamma = float(args.gamma)
+    kmeans = int(args.kmeans[0]) if args.kmeans else None
+    region_kmean = args.region_kmean
+    to_normalize = args.normalize
+    chip_data = args.chip_data
+    output_directory = args.output_dir[0]
+    numerator_id, denominator_id = args.names
+
+    if chip_data:
+        if len(args.numerator) != 1 or len(args.denominator) != 1:
+            sys.exit(
+                "For ChIP-seq data, only one bigwig file is needed for each condition in arguments -c and -e. If transcriptional data is used, two bigwig files are needed for each condition."
+            )
+        else:
+            bw_control_fw, bw_control_rv = args.numerator[0], None
+            bw_experimental_fw, bw_experimental_rv = args.denominator[0], None
+    else:
+        if len(args.numerator) != 2 or len(args.denominator) != 2:
+            sys.exit(
+                "For transcriptional data, two bigwig files are needed for each condition in arguments -c and -e. If ChIP-seq data is used, invoke the -chip argument and only one bigwig file is needed for each condition."
+            )
+        else:
+            bw_control_fw, bw_control_rv = args.numerator
+            bw_experimental_fw, bw_experimental_rv = args.denominator
+
+    start_kmean, end_kmean = None, None
+    if kmeans:
+        if not region_kmean:
+            sys.exit(
+                "If k-means clustering is to be used, the -r argument must be invoked."
+            )
+        else:
+            start_kmean, end_kmean = region_kmean
+            start_kmean, end_kmean = int(start_kmean), int(end_kmean)
+
+    if region_kmean:
+        if not kmeans:
+            sys.exit(
+                "If the -r argument is invoked, the -k argument must also be invoked."
+            )
+
+    args = [
+        file_regions,
+        bw_control_fw,
+        bw_control_rv,
+        bw_experimental_fw,
+        bw_experimental_rv,
+        max_val,
+        height,
+        width,
+        gamma,
+        output_directory,
+        to_normalize,
+        chip_data,
+        max_color,
+        kmeans,
+        start_kmean,
+        end_kmean,
+        numerator_id,
+        denominator_id,
+    ]
+
+    return args
+
 
 def main(args):
-    
-    file_names,name,blackVal_logColor,vertical_average,output_directory,heatmap_width = args
+    (
+        file_regions,
+        bw_numerator_fw,
+        bw_numerator_rv,
+        bw_denominator_fw,
+        bw_denominator_rv,
+        max_val,
+        height,
+        width,
+        gamma,
+        output_directory,
+        to_normalize,
+        chip_data,
+        max_color,
+        kmeans,
+        start_kmean,
+        end_kmean,
+        numerator_id,
+        denominator_id,
+    ) = args
 
-    file_names = file_names.split(",")
-    name = name.split(",")
-    blackVal_logColor = blackVal_logColor.split(",")
-    vertical_average = int(vertical_average)
-    heatmap_width = int(heatmap_width)
-    
-    if len(file_names) % 2 != 0:
-        return print("Missig files: must be pairs")
-    if len(name) == 0:
-        return print("Add a list of names")
-    if len(file_names) == 2:
-        if len(name) != 3:
-            return print("Number of names do not match number files that will be generated")
+    # check bed file
+    num_rows, num_cols = BedFile(file_regions).check_regions()
+
+    # Creating Quantification objects
+    # create bigwig quantification objects
+    nume_bw_obj = Quantification(
+        regions=file_regions,
+        bigwigs=[bw_numerator_fw, bw_numerator_rv],
+        name=numerator_id,
+    )
+
+    deno_bw_obj = Quantification(
+        regions=file_regions,
+        bigwigs=[bw_denominator_fw, bw_denominator_rv],
+        name=denominator_id,
+    )
+
+    # Creating a MatrixAnalysis object
+    shared_matrix_analysis = MatrixAnalysis(
+        k_means=kmeans,
+        region_kmeans=(start_kmean, end_kmean),
+        type_analysis=TypeAnalysis.UNSTRANDED if chip_data else TypeAnalysis.STRANDED,
+    )
+    # Update the shared matrix_analysis for all Quantification instances
+    nume_bw_obj.matrix_analysis = shared_matrix_analysis
+    deno_bw_obj.matrix_analysis = shared_matrix_analysis
+
+    # make matrix
+    make_matrix(nume_bw_obj, deno_bw_obj, num_rows)
+    # normalize matrices
+    if to_normalize:
+        # calculate normalization factor
+        avg_counts = (
+            nume_bw_obj.total_matrix_counts + deno_bw_obj.total_matrix_counts
+        ) / 2
+        # normalize matrices
+        for obj in [nume_bw_obj, deno_bw_obj]:
+            normalization_factor = avg_counts / obj.total_matrix_counts
+            obj.normalize_matrix(normalization_factor)
+            print(f"The normalization factor is {normalization_factor:,.2f}")
+
+        # calculate log2FC
+        numerator_matrix = nume_bw_obj.normalized_matrix
+        denominator_matrix = deno_bw_obj.normalized_matrix
+
     else:
-        if (len(file_names)/2)*3 != len(name):
-            return print("Number of names do not match number files that will be generated")            
+        # calculate log2FC
+        numerator_matrix = nume_bw_obj.matrix
+        denominator_matrix = deno_bw_obj.matrix
 
-    counter=0
-    for dataset_number in range(0, int(len(file_names)),2):  
-        df_dmso = pd.read_csv(file_names[dataset_number], sep="\t", header=None)
-        df_vhl = pd.read_csv(file_names[dataset_number+1], sep="\t", header=None)
-        
-        df_lists = []
-        for dataset in [df_dmso,df_vhl]:
-            del dataset[4]
-            del dataset[9]
-            del dataset[10]
-            dataset.rename(columns={
-                0:"Chromosome",
-                1:"Start", 
-                2:"End", 
-                3:"TSR",
-                5:"Strand",
-                6:"Chrom_bedtools",
-                7:"Start_read",
-                8:"End_read",
-                11:"Strand_read",
-                12:"Base_overlap"},
-                inplace=True)   
+    # calculate log2FC
+    log2FC = matrix_division(numerator_matrix, denominator_matrix)
+    # k-means clustering
+    if shared_matrix_analysis.k_means:
+        sliced_fc_matrix = log2FC[
+            :,
+            shared_matrix_analysis.region_kmeans[
+                0
+            ] : shared_matrix_analysis.region_kmeans[1],
+        ]
+        print(
+            f"\nKmeans clustering analysis is being applied to positions {shared_matrix_analysis.region_kmeans[0]} to {shared_matrix_analysis.region_kmeans[1]} of the log2FC matrix"
+        )
+        nume_clustered, deno_clustered, fc_clustered = kmeans_clustering(
+            sliced_fc_matrix,
+            numerator_matrix,
+            denominator_matrix,
+            log2FC,
+            shared_matrix_analysis.k_means,
+        )
 
-            # Convert coordinate to distance from Start_region
-            dataset['Position_Left'] = np.where(dataset["Strand"] == "+", dataset["Start_read"] - dataset["Start"], dataset["End"] - dataset["End_read"] )
-            dataset['Position_Right'] = np.where(dataset["Strand"] == "+", (dataset["Start_read"] - dataset["Start"]) + 1, (dataset["End"] - dataset["End_read"]) + 1)
+    # calculate averages/ repeat pixels
+    matrices = [
+        pd.DataFrame(
+            nume_clustered if shared_matrix_analysis.k_means else numerator_matrix
+        ),
+        pd.DataFrame(
+            deno_clustered if shared_matrix_analysis.k_means else denominator_matrix
+        ),
+        pd.DataFrame(fc_clustered if shared_matrix_analysis.k_means else log2FC),
+    ]
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        mod_matrices = list(
+            executor.map(
+                modifiy_base_per_pixel,
+                [(each_matrix, height, width) for each_matrix in matrices],
+            )
+        )
 
-            # make a dictionary with each TSR (or any other identifier)
-            num_bases = (dataset["End"][0] - dataset["Start"][0]) 
+    # create heatmap objects
+    heatmap = []
+    names = [numerator_id, denominator_id, f"{numerator_id}_{denominator_id}"]
+    for idx, array in enumerate(mod_matrices):
+        if idx == 0 or idx == 1:
+            if chip_data:
+                color_type = HeatmapColorType.CHIP
+            else:
+                color_type = HeatmapColorType.BLACKNWHITE
+            name = names[idx]
+        elif idx == 2:
+            color_type = HeatmapColorType.FOLDCHANGE
+            name = names[idx]
+        heatmap.append(
+            Heatmap(
+                array=array,
+                heatmap_type=color_type,
+                heatmap_analysis_type=HeatmapAnalysisType.CLASSIC,
+                max_value=max_val,
+                max_color_value=max_color,
+                identifier=name,
+                y_axis=height,
+                x_axis=width,
+                yaxis_min=0,
+                yaxis_max=num_rows,
+                gamma=gamma,
+                output_directory=output_directory,
+            )
+        )
 
-            tsr_dict = {tsr: [0]*num_bases for tsr in dataset["TSR"].values}
+    # if the max values is set to 'default', use the the largest max value between the numerator and denominator and set that list as the max value for both objects
+    if isinstance(heatmap[0].max_value, list):
+        num_max_val = heatmap[0].max_value[0]
+        deno_max_val = heatmap[1].max_value[0]
 
-            for tsr,left in zip(dataset["TSR"],dataset["Position_Left"]):
-                tsr_dict[tsr][int(left)] += 1
-            # convert dict into dataframe
-            df_final = pd.DataFrame(tsr_dict).T  
-            df_lists.append(df_final)
- 
-        # make individual arrays for control and treatment
-        dmso_array = np.array(df_lists[0], dtype=float)
-        vhl_array = np.array(df_lists[1], dtype=float)
-        division = np.divide(dmso_array, vhl_array, out=np.array(dmso_array), where=vhl_array!=0, dtype=float)
-        division_log2 = np.log2(division, out=np.array(division), where=division!=0, dtype=float)
-        
-        dmso_max_for_vhl = [] 
-        for num_array,each_array in enumerate([dmso_array,vhl_array,division_log2]):
-            new = pd.DataFrame(each_array)
-            df_avg = new.rolling(vertical_average, axis=0).mean()
-            df_final_avg_dropped_na = df_avg.dropna(axis=0, how='any')
-            df_final_avg_dropped_na_selected = df_final_avg_dropped_na.iloc[::vertical_average]
-            array_to_image = np.array(df_final_avg_dropped_na_selected)
-            
-            if heatmap_width > 1:
-                array_to_image = np.repeat(array_to_image, heatmap_width, axis=1) 
+        if num_max_val > deno_max_val:
+            heatmap[1].max_value = heatmap[0].max_value
+        else:
+            heatmap[0].max_value = heatmap[1].max_value
 
-            height,width = array_to_image.shape
-            
-            counter2=0
-            for maxes in range(0,len(blackVal_logColor),2):
+    # create heatmaps
+    making_images(heatmap)
 
-                if blackVal_logColor[maxes].lower() == "max":
-                    bw_max_val = np.max(array_to_image)
 
-                elif blackVal_logColor[maxes][0:3].lower() == "avg":
-                    if blackVal_logColor[maxes][-2].lower() == "x":
-                        corr_fact = float(blackVal_logColor[maxes][-1])
-                        array_average = np.mean(array_to_image)
-                        bw_max_val = array_average*corr_fact
-                      
-                    elif blackVal_logColor[maxes][-2].lower() == "y":
-                        corr_fact = float(blackVal_logColor[maxes][-1])
-                        array_average = np.mean(array_to_image)
-                        bw_max_val = array_average/corr_fact 
-
-                # Make the heatmap
-                if num_array == 0:
-                    vmax = bw_max_val
-                    vmin = 0
-                    dmso_max_for_vhl.append(bw_max_val)
-                    cmap = 'binary'
-
-                elif num_array == 1:
-                    vmax = dmso_max_for_vhl[counter2]
-                    vmin = 0
-                    cmap = 'binary'
-
-                elif num_array == 2:
-                    vmax = int(blackVal_logColor[maxes+1])
-                    vmin = -(vmax)
-                    cmap = 'bwr_r'
-
-                # save heatmap
-                image_path = os.path.join(output_directory,"_".join([r"Heatmap", str(name[counter]),"MAX", str(maxes), "VertAvg", str(vertical_average), "WIDTH", str(heatmap_width), ".tiff"]))
-                                     
-                plt.imsave(fname=image_path, arr=array_to_image, vmin=vmin, vmax=vmax, cmap=cmap, format='tiff')         
-
-                plt.close()
-                
-                counter2+=1
-            counter+=1
-
-if __name__ == '__main__':
-    main(sys.argv[1:])
-    
+if __name__ == "__main__":
+    args = parse_args()
+    main(args)

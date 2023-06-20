@@ -1,17 +1,18 @@
 # heatmap.py #
-This script will create two types of heatmaps: black and white heatmaps corresponding to the number of 5´ or 3´ reads in a window and a color (red and blue with white as zero) heatmap corresponding to the log2 fold change between the number of 5´ or 3´ reads in a window for control over the experimental dataset in the same window. 
+This script will create heatmaps from bigWig files.K-means clustering can also be applied for in depth data analysis. 
 
 # File requirements #
-The input file should be a tab delimited file that contains the start and end of 5´ or 3´ reads overlapping a chosen genomic window. I have posted a script that yields the genomic coordinates of 5´ and 3´ reads from an aligment bed file [here](https://github.com/JuanFSantana/DNA-and-RNA-seq-analysis-essentials/tree/main/Stranded%205%C2%B4%20and%203%C2%B4%20reads). This file can now be used as input for programs such as [bedtools intersect] (https://bedtools.readthedocs.io/en/latest/content/tools/intersect.html) which can determine whether two sets of genomic features overlap.
+The input regions file should be a six-column, tab-delimited bed file containing chromosome, start and end positions, and the strand information for each region. The regions can be of any length as long as it is an even number and the center is a feature under study (e.g. transcription start site). 
+ 
+| chr6 | 142946246 | 142946446 | Gene_A | 255 | - |
+|:----:|:---------:|:---------:|:------:|:---:|:-:|
 
-Example file:
-
-| chr6 | 142946246 | 142946446 | Gene_A | 102 | - | chr6 | 142946247 | 142946248 | A00876:119:HW5F5DRXX:2:2207:29170:1157 | 255 | - |
-| ---- |:---------:|:---------:|:------:|:---:|:-:|:----:|:---------:|:---------:|:--------------------------------------:|:---:|:-:|
+BigWig files of data to be abalayzed. If stranded data, separate forward and reverse bigWigs are needed.
 
 
 # Behavior #
-Two input files, control and experimental, are required with the format described above. The script has optionality for black/white and blue/red max color levels, as well as calculation of the vertical (y axis) average and horizontal (x axis) repetitions.
+It can make heatmaps for stranded data (e.g. PRO-Seq) or non-stranded data (e.g. ChIP). It requires two bigWig files (e.g. control and experimental) creating heatmaps for each of them and a log2 fold change color heatmap. 
+The program is capable of applying a k-means clustergin algorithm on a chosen interval from the log2 fold change heatmaps.
 
 # Dependencies #
 ### Python libraries ###
@@ -21,44 +22,55 @@ Numpy: https://pypi.org/project/numpy/
 
 Matplotlib: https://matplotlib.org/stable/users/installing/index.html
 
-# Example of arguments #
-```
-python heatmap.py <File 1,File 2> \
-              <Name output heatmap 1,name output heatmap 2,Name output heatmap 3 > \
-              <Black/white max value,Red/blue max value> \
-              <Vertical average> \
-              <Output directory> \
-              <Heatmap width> \
+pyBigWig: https://github.com/deeptools/pyBigWig
 
-Example command usage: 
-python heatmap.py TBP_5_reads_overlap_dmso.bed,TBP_5_reads_overlap_vhl.bed \
-                  TBP_5_DMSO,TBP_5_VHL,TBP_5_ratio \
-                  avgx2,4 \
-                  10 \
-                  /Users/Desktop/Heatmaps \
-                  3
+scikit_learn: https://scikit-learn.org/stable/
+
+# Example command usag #
+```
+python heatmap.py maxtss-plus-minus-500bp.bed \
+                  - numerator POLII-CHIP-DEPLETION.bw \
+                  - denominator POLII-CHIP-DMSO.bw \
+                  -chip \
+                  -x 3 \
+                  -id Depleted DMSO \
+                  -o /home/usr/
+
+python heatmap.py maxtss-plus-minus-500bp.bed \
+                  - numerator POLII-PRO-SEQ-DEPLETION-forward.bw POLII-PRO-SEQ-DEPLETION-reverse.bw\
+                  - denominator POLII-PRO-SEQ-DMSO-forward.bw POLII-PRO-SEQ-DMSO-reverse.bw\
+                  -x 3 \
+                  -id Depleted DMSO \
+                  -o /home/usr/
+		  -k 10
+ 	          -r 400 800
 ```
 # Parameter description #
 ```
-File 1,File 2: <str> Two files, control and experimental - in that order -, formatted as described above.
+regions: <str> Bed file of genomic regions of chosen length with the format described above
 
-Name output heatmap 1,name output heatmap 2,Name output heatmap 3: <str> Comma separated names for the output heatmaps. The order of names should be as follow: control, experimental, ratio (control/experimental). 
+-numerator: <str> If stranded data, forward and reverse (in that order) bigwigs for condition to be used as numerator in log2FC. If non-stranded data, only one file is required.
 
-Black/white max value,Red/blue max value: Black/ white max value options are "max" or avgx<int> or avgy<int>. "max" is the largest value present in the heatmap. avgx<int/float> is the average of the heatmap times an integer. avgy<int/float> is the average of the heatmap divided by an integer. For Red/blue max value, the only option is <int/float> chosen by the user. Both the max and min values are set to this number.  
-Black and white heatmaps, the darkest pixel is assigned to the max value indicated while white is zero. A gradient of white to black is proporionally determined for the rest of the values in the heatmap. Red and blue heatmaps, the darkest red and blue pixel is assigned to the max value indicated while white is zero. The color for positive numbers are determined proportionally in the white to red gradient while the colors for negative colors are determined proportionally in the white to blue gradient.
+-denominator: <str> If stranded data, forward and reverse (in that order) bigwigs for condition to be used as denominator in log2FC. If non-stranded data, only one file is required.
 
-Vertical average: <int> Number of rows to be vertically averaged.
+-mb: <int> Sets the chosen value as black, default is the largest number in the matrix
 
-Output directory: <str> The output heatmaps will be deposited in this path. 
+-mc: <int> Sets the chosen value as most red/blue in the log2 fold change heatmap, default is the largest absolute fold change
 
-Heatmap width: <int> The number of pixels per base position.
-```
-Example output: control, experimental and fold change (log2) heatmaps for a +/- 100 bp region relative to the TSS of 10,273 transcription start regions (TSRs) identified in [Santana et al., 2022](https://academic.oup.com/nar/advance-article/doi/10.1093/nar/gkac678/6659871?guestAccessKey=88024805-7d8e-4421-a032-dbef1c737757).
+-n: If argument is invoked, the average total number of reads for all regions will be calculated between the numerator and denominator datasets and the reads per base will be normalized to this value 
 
-Black/white max value, Red/blue max value = avgx4.1,1.2
+-chip: If bigwigs are ChIP-seq data, argument must be invoked
 
-Vertical average = 10
+-k: <int> Number of K-means clusters to be used for clustering the data
 
-Heatmap width = 3
+-r: <int> <int> Location in the regions file to be used for k-means clustering. The first argument is the start position and the second is the end position. For example, in regions of length 1000 bp, if you want to cluster the middle 500 bp, the arguments would be -r 250 750. Clustering will be done based on the data from log2 fold change.
 
-![Picture4](https://user-images.githubusercontent.com/38702786/166007154-9fb6689b-abcb-4769-a530-9180741ea600.jpg)   ![Picture5](https://user-images.githubusercontent.com/38702786/166007152-6d2a2d27-2b4b-4024-a628-f4b540c9b739.jpg)   ![Picture6](https://user-images.githubusercontent.com/38702786/166007155-50f8ad5e-191a-461f-8400-8b66708b6f87.jpg)
+-y: <int> (value greater than or equal to 1) Horizontal lines/bp for each fragment length, default is 1
+
+-x: <float> or <int> (value less than or equal to 1) Vertical lines/bp for each genomic interval displayed, for example, -x 1 is one vertical line/bp; -x 0.1 is one vertical line/averaged 10 bp, default is 1
+
+-g: <float> Gamma correction factor, default is 1 but 0.5 provides an image which is more interpretable by the human eye. For more information: https://en.wikipedia.org/wiki/Gamma_correction
+
+-o: <str> Ouput directory
+
+-id: <str> Image output names for numerator and denominator (in that order). The log2FC heatmaps will be named by combining the numerator and denominator file names
