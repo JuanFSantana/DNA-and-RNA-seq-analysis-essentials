@@ -76,7 +76,7 @@ regions: <str> Bed file of genomic regions of chosen length with the format desc
 -id: <str> Image output names for numerator and denominator (in that order). The log2FC heatmaps will be named by combining the numerator and denominator file names
 ```
 
-# Example ouput with command: -numerator Control-H3K4me3-DFF-ChIP-centers.bw -denominator Treatment-H3K4me3-DFF-ChIP-centers.bw -k 10 -r 400 750 -x 6 
+###### Example ouput with command: -numerator Control-H3K4me3-DFF-ChIP-centers.bw -denominator Treatment-H3K4me3-DFF-ChIP-centers.bw -k 10 -r 400 750 -x 6 
 
 &nbsp; Control-H3K4me3 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Treatment-H3K4me3 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; log2FC
 <p float="left">
