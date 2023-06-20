@@ -31,7 +31,7 @@ Pillow: https://pillow.readthedocs.io/en/stable/index.html
 ### Program used to obtain the fragments overlapping the genomic intervals ###
 bedtools: https://bedtools.readthedocs.io/en/latest/content/installation.html, developed by the Quinlan laboratory at the University of Utah. 
 
-# Example command usage#
+# Example command usage #
 ```
 python3 fragMap.py plusminus1000_from_TSS_1000genes.bed \
                   -f PolII-DFF-ChIP-Seq-Rep1.bed PolII-DFF-ChIP-Seq-Rep2.bed PolII-DFF-ChIP-Seq-Rep3.bed \
