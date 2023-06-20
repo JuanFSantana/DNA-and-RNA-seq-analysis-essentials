@@ -74,3 +74,6 @@ regions: <str> Bed file of genomic regions of chosen length with the format desc
 -o: <str> Ouput directory
 
 -id: <str> Image output names for numerator and denominator (in that order). The log2FC heatmaps will be named by combining the numerator and denominator file names
+
+### Example ouput 
+![Control](https://github.com/JuanFSantana/DNA-and-RNA-seq-analysis-essentials/blob/main/Heatmaps/images/Cluster-10-chip-2h-Max-10.0-X-3.0-Y-1.0.png)
