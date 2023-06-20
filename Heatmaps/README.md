@@ -81,8 +81,8 @@ regions: <str> Bed file of genomic regions of chosen length with the format desc
 
 <img src=https://github.com/JuanFSantana/DNA-and-RNA-seq-analysis-essentials/blob/main/Heatmaps/images/Cluster-10-chip-H3K4me3-Max-10.0-X-3.0-Y-1.0.png?raw=true width="250" height="250" />
 
-![Control-H3K4me3-DFF-ChIP-centers](https://github.com/JuanFSantana/DNA-and-RNA-seq-analysis-essentials/blob/main/Heatmaps/images/Cluster-10-chip-H3K4me3-Max-10.0-X-3.0-Y-1.0.png?raw=true)
+![Control-H3K4me3-DFF-ChIP-centers](https://github.com/JuanFSantana/DNA-and-RNA-seq-analysis-essentials/blob/main/Heatmaps/images/Cluster-10-chip-H3K4me3-Max-10.0-X-3.0-Y-1.0.png?raw=true  | width=100)
 
-![Depletion-H3K4me3-DFF-ChIP-centers](https://github.com/JuanFSantana/DNA-and-RNA-seq-analysis-essentials/blob/main/Heatmaps/images/Cluster-10-chip-2h-Max-10.0-X-3.0-Y-1.0.png?raw=true)
+![Depletion-H3K4me3-DFF-ChIP-centers](https://github.com/JuanFSantana/DNA-and-RNA-seq-analysis-essentials/blob/main/Heatmaps/images/Cluster-10-chip-2h-Max-10.0-X-3.0-Y-1.0.png?raw=true =250x250)
 
 ![Depletion/control-log2FC-H3K4me3-DFF-ChIP-centers](https://github.com/JuanFSantana/DNA-and-RNA-seq-analysis-essentials/blob/main/Heatmaps/images/Cluster-10-chip-H3K4me3-vs-2h-Max-1.67-X-3.0-Y-1.0.png?raw=true)
