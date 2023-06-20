@@ -79,10 +79,10 @@ regions: <str> Bed file of genomic regions of chosen length with the format desc
 ### Example ouput with command: -numerator Control-H3K4me3-DFF-ChIP-centers.bw -denominator Depletion-H3K4me3-DFF-ChIP-centers.bw -k 10 -r 400 750 -x 6 
 
 <p float="left">
-    <img src="https://github.com/JuanFSantana/DNA-and-RNA-seq-analysis-essentials/blob/main/Heatmaps/images/Cluster-10-chip-H3K4me3-Max-10.0-X-3.0-Y-1.0.png?raw=true" width="250" height="400"  title="Image description"/>
-    <em>Control-H4K4me3</em>
+    <img src="https://github.com/JuanFSantana/DNA-and-RNA-seq-analysis-essentials/blob/main/Heatmaps/images/Cluster-10-chip-H3K4me3-Max-10.0-X-3.0-Y-1.0.png?raw=true" width="250" height="400" />
+     <figcaption>Control-H4K4me3 <figcaption>
     <img src="https://github.com/JuanFSantana/DNA-and-RNA-seq-analysis-essentials/blob/main/Heatmaps/images/Cluster-10-chip-2h-Max-10.0-X-3.0-Y-1.0.png?raw=true" width="250" height="400" />
-    <em>Treatment-H4K4me3</em>
+     <figcaption>Treatment-H4K4me3 <figcaption>
     <img src="https://github.com/JuanFSantana/DNA-and-RNA-seq-analysis-essentials/blob/main/Heatmaps/images/Cluster-10-chip-H3K4me3-vs-2h-Max-1.67-X-3.0-Y-1.0.png?raw=true" width="250" height="400" />
-    <em>log2FC-H4K4me3</em>
+     <figcaption>log2FC-H4K4me3 <figcaption>
 </p>
