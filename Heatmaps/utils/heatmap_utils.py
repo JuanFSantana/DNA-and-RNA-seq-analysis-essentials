@@ -197,7 +197,7 @@ class Heatmap:
         -------
         None
         """
-        max_num = int(max_num)
+        max_num = float(max_num)
         plt.rcParams["font.size"] = "5"
         plt.rcParams["figure.facecolor"] = "white"
 
