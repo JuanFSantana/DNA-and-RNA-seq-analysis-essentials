@@ -1,5 +1,5 @@
 # heatmap.py #
-This script will create heatmaps from bigWig files.K-means clustering can also be applied for in depth data analysis. 
+This script will create heatmaps from bigWig files.K-means clustering can also be applied for in-depth data analysis. 
 
 # File requirements #
 The input regions file should be a six-column, tab-delimited bed file containing chromosome, start and end positions, and the strand information for each region. The regions can be of any length as long as it is an even number and the center is a feature under study (e.g. transcription start site). 
@@ -12,7 +12,7 @@ BigWig files of data to be abalayzed. If stranded data, separate forward and rev
 
 # Behavior #
 It can make heatmaps for stranded data (e.g. PRO-Seq) or non-stranded data (e.g. ChIP). It requires two bigWig files (e.g. control and experimental) creating heatmaps for each of them and a log2 fold change color heatmap. 
-The program is capable of applying a k-means clustergin algorithm on a chosen interval from the log2 fold change heatmaps.
+The program is capable of applying a k-means clustering algorithm on a chosen interval from the log2 fold change heatmaps.
 
 # Dependencies #
 ### Python libraries ###
