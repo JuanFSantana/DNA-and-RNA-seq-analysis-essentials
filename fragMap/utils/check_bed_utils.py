@@ -48,4 +48,6 @@ class BedFile:
             return sys.exit("Col coordinate 2 should be greater than col 1. Exiting")
         elif len(set(df[2] - df[1])) > 1:
             return sys.exit("All regions should be of the same size. Exiting")
+        elif len(set(df[3])) > 1:
+            return sys.exit("All regions should have a unique identifier. Exiting")
         return df.shape[0], df.shape[1]
