@@ -253,9 +253,9 @@ class Heatmap:
                 xlabels_ = [
                     i
                     for i in range(
-                        int(-matrix_length / 2 * float(width)),
-                        int(matrix_length / 2 * float(width) + 1),
-                        int(steps * float(width)),
+                        int(-matrix_length / (2 * float(width))),
+                        int(matrix_length / (2 * float(width))) + 1,
+                        int(steps * (1 / float(width))),
                     )
                 ]
             else:
