@@ -31,7 +31,7 @@ class BedFile:
         The conditions checked are:
             1. The bed file should not have more than 6 columns.
             2. For each row, the second column's value should be greater than the first column's value.
-            3. All regions should be of the same size.
+            3. All regions should be of the same size and even.
             4. Column 3 should have unique labels.
 
         If the conditions are not met, the program exits with an error message.
@@ -49,6 +49,8 @@ class BedFile:
             return sys.exit("Col coordinate 2 should be greater than col 1. Exiting")
         elif len(set(df[2] - df[1])) > 1:
             return sys.exit("All regions should be of the same size. Exiting")
+        elif list(set(df[2] - df[1]))[0] % 2 != 0:
+            return sys.exit("All regions should be of even length. Exiting")
         elif len(set(df[3])) != len(df[3]):
             return sys.exit("All regions should have a unique identifier. Exiting")
         return df.shape[0], df.shape[1]
