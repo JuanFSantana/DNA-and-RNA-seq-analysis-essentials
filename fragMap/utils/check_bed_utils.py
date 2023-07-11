@@ -46,11 +46,11 @@ class BedFile:
         if df.shape[1] > 6:
             return sys.exit("Your bed file has more than 6 columns. Exiting")
         elif any(df[2] - df[1] < 0):
-            return sys.exit("Col coordinate 2 should be greater than col 1. Exiting")
+            return sys.exit("Coordinate in column 2 should be greater than coordinate in column 1. Exiting")
         elif len(set(df[2] - df[1])) > 1:
             return sys.exit("All regions should be of the same size. Exiting")
         elif list(set(df[2] - df[1]))[0] % 2 != 0:
             return sys.exit("All regions should be of even length. Exiting")
         elif len(set(df[3])) != len(df[3]):
-            return sys.exit("All regions should have a unique identifier. Exiting")
+            return sys.exit("All regions should have a unique identifier in column 4. Exiting")
         return df.shape[0], df.shape[1]
