@@ -52,5 +52,5 @@ class BedFile:
         elif list(set(df[2] - df[1]))[0] % 2 != 0:
             return sys.exit("All regions should be of even length. Exiting")
         elif len(set(df[3])) != len(df[3]):
-            return sys.exit("All regions should have a unique identifier in column 3. Exiting")
+            return sys.exit("All regions should have a unique identifier in column 4. Exiting")
         return df.shape[0], df.shape[1]
