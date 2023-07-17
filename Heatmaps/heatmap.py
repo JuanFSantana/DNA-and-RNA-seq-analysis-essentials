@@ -337,7 +337,7 @@ def parse_args():
     if chip_data:
         if len(args.numerator) != 1 or len(args.denominator) != 1:
             sys.exit(
-                "For ChIP-seq data, only one bigwig file is needed for each condition in arguments -c and -e. If transcriptional data is used, two bigwig files are needed for each condition."
+                "For ChIP-seq data, only one bigwig file is needed for each condition in arguments -numerator and -denominator. If transcriptional data is used, two bigwig files are needed for each condition."
             )
         else:
             bw_control_fw, bw_control_rv = args.numerator[0], None
@@ -345,7 +345,7 @@ def parse_args():
     else:
         if len(args.numerator) != 2 or len(args.denominator) != 2:
             sys.exit(
-                "For transcriptional data, two bigwig files are needed for each condition in arguments -c and -e. If ChIP-seq data is used, invoke the -chip argument and only one bigwig file is needed for each condition."
+                "For transcriptional data, two bigwig files are needed for each condition in arguments -numerator and -denominator. If ChIP-seq data is used, invoke the -chip argument, and only one bigwig file is needed for each condition."
             )
         else:
             bw_control_fw, bw_control_rv = args.numerator
