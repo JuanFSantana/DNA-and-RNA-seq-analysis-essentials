@@ -170,7 +170,7 @@ class Heatmap:
                         maxes = int(maxes / subsuquent_division)
                     val_list.append(maxes)
             else:
-                return self.max_value
+                return [self.max_value]
 
         if self.heatmap_type == HeatmapColorType.FOLDCHANGE:
             if self.max_color_value == "default":
@@ -180,7 +180,7 @@ class Heatmap:
                     if i >= 2:
                         val_list.append(maxes)
             else:
-                return self.max_color_value
+                return [self.max_color_value]
 
         return val_list
 
