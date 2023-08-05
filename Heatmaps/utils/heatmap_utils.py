@@ -269,12 +269,14 @@ class Heatmap:
                 ]
             return xlabels_
 
-        if matrix_length < 10000:
-            xlabels = [i if i != 0 else 1 for i in x_conver(matrix_length, self.x_axis)]
+        x_axis_converted_nums = x_conver(matrix_length, self.x_axis)
+        sorted_x_axis_converted_nums = sorted(x_axis_converted_nums)
+        second_min = abs(sorted_x_axis_converted_nums[1])
+        if second_min < 1000:
+            xlabels = [i if i != 0 else 1 for i in x_axis_converted_nums]
         else:
             xlabels = [
-                str(int(i / 1000)) + "k" if i != 0 else 1
-                for i in x_conver(matrix_length, self.x_axis)
+                str(int(i / 1000)) + "k" if i != 0 else 1 for i in x_axis_converted_nums
             ]
 
         plt.xticks(real_xcoor, xlabels)
