@@ -305,7 +305,7 @@ def parse_args():
         sys.exit("Missing -x argument. x must be int or float less than or equal to 1")
     if max_val != "default":
         try:
-            int(max_val) or float(max_val)
+            int(max_val)
         except (TypeError, AttributeError, ValueError):
             sys.exit("black value: int or default")
     if len(read_file) != len(spikeins) and len(read_file) != len(identifier):
@@ -390,7 +390,7 @@ def main(args):
             array=obj.processed_data.array_to_image,
             heatmap_type=HeatmapColorType.BLACKNWHITE,
             heatmap_analysis_type=HeatmapAnalysisType.FRAGMAP,
-            max_value=max_val,
+            max_value=[max_val],
             identifier=obj.image_name,
             y_axis=height,
             x_axis=width,
