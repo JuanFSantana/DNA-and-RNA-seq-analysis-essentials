@@ -38,7 +38,7 @@ python3 fragMap.py plusminus1000_from_TSS_1000genes.bed \
                   -r 20 400 \
                   -y 4 \
                   -g 0.5 \
-		          -n Rep1 Rep2 Rep3 \
+		-n Rep1 Rep2 Rep3 \
                   -s 1 1.3 1.5
 
 ```
