@@ -28,7 +28,6 @@ Matplotlib: https://matplotlib.org/stable/users/installing/index.html
 
 Pillow: https://pillow.readthedocs.io/en/stable/index.html
 
-### Program used to obtain the fragments overlapping the genomic intervals ###
 bedtools: https://bedtools.readthedocs.io/en/latest/content/installation.html, developed by the Quinlan laboratory at the University of Utah. 
 
 # Example command usage #
@@ -38,8 +37,8 @@ python3 fragMap.py plusminus1000_from_TSS_1000genes.bed \
                   -o /home/user/dir/ \
                   -r 20 400 \
                   -y 4 \
-                  -g 0.5
-		  -n Rep1 Rep2 Rep3
+                  -g 0.5 \
+		          -n Rep1 Rep2 Rep3 \
                   -s 1 1.3 1.5
 
 ```
