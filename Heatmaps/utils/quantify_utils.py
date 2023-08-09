@@ -236,6 +236,8 @@ class Quantification:
 
 
 def kmeans_clustering(
+    bed_path,
+    output_path,
     sliced_fc_matrix,
     num_matrix,
     deno_matrix,
@@ -264,6 +266,7 @@ def kmeans_clustering(
         The reordered matrices after clustering.
     """
     print("\nClustering...")
+    bed_file = pd.read_csv(bed_path, sep="\t", header=None)
     kmeans = KMeans(n_clusters=k).fit(sliced_fc_matrix)
     # order the centroids in an attempt to
     # get the same cluster order
@@ -279,6 +282,9 @@ def kmeans_clustering(
     clustered_matrix_labels_fc = np.concatenate(
         (fc_matrix, np.array([cluster_labels]).T), axis=1
     )
+    clustered_bed_file = np.concatenate(
+        (bed_file.to_numpy(), np.array([cluster_labels]).T), axis=1
+    )
 
     # re-order the matrix based on the cluster labels
     re_ordered_matrix_num = clustered_matrix_labels_num[
@@ -291,9 +297,17 @@ def kmeans_clustering(
         clustered_matrix_labels_fc[:, -1].argsort()
     ]
 
+    re_ordered_bed_file = clustered_bed_file[clustered_bed_file[:, -1].argsort()]
+
     # remove last column (cluster labels)
     re_ordered_matrix_num = re_ordered_matrix_num[:, :-1]
     re_ordered_matrix_deno = re_ordered_matrix_deno[:, :-1]
     re_ordered_matrix_fc = re_ordered_matrix_fc[:, :-1]
+
+    # output as pandas dataframe
+    re_ordered_bed_file = pd.DataFrame(re_ordered_bed_file)
+    re_ordered_bed_file.to_csv(
+        f"{output_path}Clustered_genes.bed", sep="\t", index=False, header=False
+    )
 
     return re_ordered_matrix_num, re_ordered_matrix_deno, re_ordered_matrix_fc

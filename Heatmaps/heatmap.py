@@ -255,7 +255,7 @@ def parse_args():
         default=None,
         nargs=1,
         type=int,
-        help="Number of K-means clusters to be used for clustering the data",
+        help="Number of K-means clusters to be used for clustering the data. A bed file with the cluster assignments will be created in the output directory.",
     )
 
     parser.add_argument(
@@ -477,6 +477,8 @@ def main(args):
             f"\nKmeans clustering analysis is being applied to positions {shared_matrix_analysis.region_kmeans[0]} to {shared_matrix_analysis.region_kmeans[1]} of the log2FC matrix"
         )
         nume_clustered, deno_clustered, fc_clustered = kmeans_clustering(
+            file_regions,
+            output_directory,
             sliced_fc_matrix,
             numerator_matrix,
             denominator_matrix,
