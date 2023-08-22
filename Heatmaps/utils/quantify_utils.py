@@ -111,7 +111,7 @@ class Quantification:
         float
             The sum of counts.
         """
-        forward_bw, data_type, sliced_df, reverse_bw = args
+        forward_bw, data_type, sliced_df, reverse_bw, antisense = args
         per_row_matrix_list = []
         # iterate through bed file of genomic regions
         for idx, each_row in sliced_df.iterrows():
@@ -123,8 +123,12 @@ class Quantification:
                 str(each_row[5]),
             )
             if strand == "+":
-                # intantiate FW bigwig for positive strand genes
-                bw = pyBigWig.open(forward_bw)
+                # if interested in antisense strand, use RV bigwig
+                if antisense:
+                    bw = pyBigWig.open(reverse_bw)
+                else:
+                    # intantiate FW bigwig for positive strand genes
+                    bw = pyBigWig.open(forward_bw)
                 # get values for each base: chromosome,start,end
                 try:
                     per_row_matrix = np.array(
@@ -140,12 +144,16 @@ class Quantification:
                     pass
 
             elif strand == "-":
-                # if dealing with chip data, data is only present in the forward bigwig
-                if data_type == TypeAnalysis.UNSTRANDED:
+                # if interested in antisense strand, use RV bigwig
+                if antisense:
                     bw = pyBigWig.open(forward_bw)
                 else:
-                    # intantiate RV bigwig for negative strand genes
-                    bw = pyBigWig.open(reverse_bw)
+                    # if dealing with chip data, data is only present in the forward bigwig
+                    if data_type == TypeAnalysis.UNSTRANDED:
+                        bw = pyBigWig.open(forward_bw)
+                    else:
+                        # intantiate RV bigwig for negative strand genes
+                        bw = pyBigWig.open(reverse_bw)
                 # get values for each base: chromosome,start,end
                 try:
                     per_row_matrix = np.array(
@@ -170,7 +178,9 @@ class Quantification:
         return pd.DataFrame(per_row_matrix_list).fillna(0), sum_counts
 
     def make_matrix_and_get_total_counts(
-        self, total_rows: int
+        self,
+        total_rows: int,
+        antisense: bool,
     ) -> Tuple[np.ndarray, float]:
         """
         Makes the quantification matrix and returns it along with the total counts.
@@ -201,6 +211,7 @@ class Quantification:
                             how_analyze,
                             genomic_regions[rows : rows + 100],
                             rbwigs,
+                            antisense,
                         )
                         for rows in range(0, total_rows + 100, 100)
                     ],

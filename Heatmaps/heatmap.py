@@ -162,12 +162,12 @@ def conccurent_matrix_maker(args) -> None:
     Returns:
     None
     """
-    quant_obj, num_rows = args
-    return quant_obj.make_matrix_and_get_total_counts(num_rows)
+    quant_obj, num_rows, antisense = args
+    return quant_obj.make_matrix_and_get_total_counts(num_rows, antisense)
 
 
 def make_matrix(
-    nume_obj: Quantification, deno_obj: Quantification, num_rows: int
+    nume_obj: Quantification, deno_obj: Quantification, num_rows: int, anti_sense: bool
 ) -> None:
     """
     Makes two matrices concurrently using the specified Quantification objects and the number of rows.
@@ -177,6 +177,7 @@ def make_matrix(
     nume_obj (Quantification): The Quantification object for the numerator.
     deno_obj (Quantification): The Quantification object for the denominator.
     num_rows (int): The number of rows for the matrices.
+    anti_sense (bool): If True, the anti-sense strand will be used instead of the sense strand.
 
     Returns:
     None
@@ -185,7 +186,7 @@ def make_matrix(
         results = list(
             executor.map(
                 conccurent_matrix_maker,
-                [(obj, num_rows) for obj in [nume_obj, deno_obj]],
+                [(obj, num_rows, anti_sense) for obj in [nume_obj, deno_obj]],
             )
         )
     # results is a list of tuples, where each tuple contains a matrix and total counts
@@ -255,7 +256,7 @@ def parse_args():
         default=None,
         nargs=1,
         type=int,
-        help="Number of K-means clusters to be used for clustering the data. A bed file with the cluster assignments will be created in the output directory.",
+        help="Number of K-means clusters to be used for clustering the data. A .csv file with the cluster assignments will be created in the output directory.",
     )
 
     parser.add_argument(
@@ -299,6 +300,15 @@ def parse_args():
         default=False,
         help="If argument is invoked, the average total number of reads for all regions will be calculated between the numerator and denominator datasets and the reads per base will be normalized to this value",
     )
+
+    parser.add_argument(
+        "-antiSense",
+        dest="antiSense",
+        action="store_true",
+        default=False,
+        help="If argument is invoked, the counts from the anti-sense strand will be plotted instead of the sense strand. This is only applicable for transcriptional data.",
+    )
+
     parser.add_argument(
         "-o",
         dest="output_dir",
@@ -333,8 +343,13 @@ def parse_args():
     chip_data = args.chip_data
     output_directory = args.output_dir[0]
     numerator_id, denominator_id = args.names
+    anti_sense = args.antiSense
 
     if chip_data:
+        if anti_sense:
+            sys.exit(
+                "The -antiSense argument is only applicable for transcriptional data."
+            )
         if len(args.numerator) != 1 or len(args.denominator) != 1:
             sys.exit(
                 "For ChIP-seq data, only one bigwig file is needed for each condition in arguments -numerator and -denominator. If transcriptional data is used, two bigwig files are needed for each condition."
@@ -386,6 +401,7 @@ def parse_args():
         end_kmean,
         numerator_id,
         denominator_id,
+        anti_sense,
     ]
 
     return args
@@ -411,6 +427,7 @@ def main(args):
         end_kmean,
         numerator_id,
         denominator_id,
+        anti_sense,
     ) = args
 
     # check bed file
@@ -441,7 +458,7 @@ def main(args):
     deno_bw_obj.matrix_analysis = shared_matrix_analysis
 
     # make matrix
-    make_matrix(nume_bw_obj, deno_bw_obj, num_rows)
+    make_matrix(nume_bw_obj, deno_bw_obj, num_rows, anti_sense)
     # normalize matrices
     if to_normalize:
         # calculate normalization factor
