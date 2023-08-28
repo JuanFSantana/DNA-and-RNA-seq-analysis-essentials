@@ -57,13 +57,15 @@ regions: <str> Bed file of genomic regions of chosen length with the format desc
 
 -mc: <int> Sets the chosen value as most red/blue in the log2 fold change heatmap, default is the largest absolute fold change
 
--n: If argument is invoked, the average total number of reads for all regions will be calculated between the numerator and denominator datasets and the reads per base will be normalized to this value 
+-n: If the argument is invoked, the average total number of reads for all regions will be calculated between the numerator and denominator datasets and the reads per base will be normalized to this value 
 
 -chip: If bigwigs are ChIP-seq data, argument must be invoked
 
 -k: <int> Number of K-means clusters to be used for clustering the data
 
 -r: <int> <int> Location in the regions file to be used for k-means clustering. The first argument is the start position and the second is the end position. For example, in regions of length 1000 bp, if you want to cluster the middle 500 bp, the arguments would be -r 250 750. Clustering will be done based on the data from log2 fold change.
+
+-antiSense: If the argument is invoked, the counts from the anti-sense strand will be plotted instead of the sense strand. This is only applicable for transcriptional data.
 
 -y: <int> (value greater than or equal to 1) Horizontal lines/bp for each fragment length, default is 1
 
