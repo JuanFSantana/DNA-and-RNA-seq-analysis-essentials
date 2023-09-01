@@ -3,9 +3,11 @@ Juan F. Santana, Ph.D. (<juan-santana@uiowa.edu>), University of Iowa, Iowa City
 
 Digestion with human DNA fragmentation factor (DFF) followed by immunoprecipitation and sequencing (DFF-Seq-ChIP) precisely reveals the relationship between DNA-interacting proteins and chromatin [Santana et al., 2022](https://academic.oup.com/nar/article/50/16/9127/6659871), [Spector et al., 2022](https://www.nature.com/articles/s41467-022-29739-x), [Ball et al., 2022a](https://www.mdpi.com/1999-4915/14/4/779), and [Ball et al., 2022b](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9239164/).
 
+fragMap of Pol II DFF-Seq performed on HFF cells ([Spector et al., 2022](https://www.nature.com/articles/s41467-022-29739-x)) over +/- 1,000 bp regions from the MaxTSS of 12,229 genes in HFF cells determined with PRO-Cap ([Nilson et al., 2022](https://doi.org/10.1093/nar/gkac678)). Chromatin features of Pol II can be determined based on the fragment size and their positional ranges in relation to the MaxTSS (see below). 
 
-
-This program counts fragments/reads of a chosen range of sizes overlapping with a chosen genomic interval. The program requires a Linux operating system and Python 3+.
+The program tallies the number of DFF-Seq reads with specific length ranges that overlap within a designated genomic interval. The program requires a Linux operating system and Python 3+.
+ 
+![fragMap-exp4-polII](https://github.com/JuanFSantana/DNA-and-RNA-seq-analysis-essentials/assets/38702786/184aa0a9-d262-4639-adce-4b492ef2f2ea)
 
 # File requirements #
 The input regions file should be a six-column, tab-delimited bed file containing chromosome, start and end positions, and the strand information for each region. The regions can be of any length as long as it is even and the center is the MaxTSS. 
@@ -20,61 +22,36 @@ The input fragments file should be a six-column, tab-delimited bed file containi
 
 
 # Behavior #
-Generates a bed file with the counts for each feature gor each gene. 
+Generates a bed file with the raw and normalized counts for each feature per gene.  
 
 # Dependencies #
-### Python libraries ###
-Pandas: https://pypi.org/project/pandas/
-
-Numpy: https://pypi.org/project/numpy/
-
-Matplotlib: https://matplotlib.org/stable/users/installing/index.html
-
-Pillow: https://pillow.readthedocs.io/en/stable/index.html
 
 bedtools: https://bedtools.readthedocs.io/en/latest/content/installation.html, developed by the Quinlan laboratory at the University of Utah. 
 
 # Example command usage #
 ```
-python3 fragMap.py plusminus1000_from_TSS_1000genes.bed \
-                  -f PolII-DFF-ChIP-Seq-Rep1.bed PolII-DFF-ChIP-Seq-Rep2.bed PolII-DFF-ChIP-Seq-Rep3.bed \
+python3 dff_seq_feature_count.py plusminus1000_from_TSS_1000genes.bed \
+                  -f PolII-DFF-ChIP-Seq-Rep1.bed -20 90 40 65 -60 60 65 10 \
+                  -n Free-Pol-II PIC \
+                  -t centers \
                   -o /home/user/dir/ \
-                  -r 20 400 \
-                  -y 4 \
-                  -g 0.5 \
-		  -n Rep1 Rep2 Rep3 \
-                  -s 1 1.3 1.5
+                  -s 0.5
 
 ```
 # Parameter description #
 ```
-regions: <str> Bed file of genomic regions of chosen length with the format described above
+regions: <str> Bed file of genomic regions of chosen length. The regions should be of even length and the MaxTSS should be in the middle of the region.
 
--f: <str> Bed file(s) of fragment positions with the format described above. Multiple data files (replicas) can be added at the same time
+-f: <str> Singular fragment dataset, followed by position range, followed by fragment range (range limits are inclusive). Example 1: -f /home/reads.bed 20 1000 400 800. Example 2: -f /home/reads.bed 20 1000 400 800 20 1000 300 600
 
--r: <int> <int> Range of fragment sizes, for example -r 20 400
+-n: <str> Provide a name for each feature (space sperated). The names should be in the same order as the features provided with -f.
 
--s: <int | float> Correction factors for each data file in `-f` in the same order
+-t: <str> Type of overlap: center, full, or partial (center = center of fragment overlap with interval; full = whole read within interval; partial = fragment overlap with interval >= 1 bp)
 
--b: <int> Sets the chosen value as black, default is the largest number in the matrix
+-s: <int | float> Correction factors - must be 1 per dataset (-f) space separated. The correction factors should be in the same order as the datasets provided with -f.
 
--c: If invoked, the output will be a fragMap of centers of fragments
-
--y: <int> (value greater than or equal to 1) Horizontal lines/bp for each fragment length, default is 1
-
--x: <float> or <int> (value less than or equal to 1) Vertical lines/bp for each genomic interval displayed, for example, -x 1 is one vertical line/bp; -x 0.1 is one vertical line/averaged 10 bp, default is 1
-
--g: <float> Gamma correction factor, default is 1 but 0.5 provides an image which is more interpretable by the human eye. For more information: https://en.wikipedia.org/wiki/Gamma_correction
-
--o: <str> Ouput directory
-
--n: <str> Image identifier(s) for each data file in `-f` in the same order
+-o: <str> Path to output, for example -o /home/user/dir
 
 ```
-Example output from Pol II DFF-Seq performed on HFF cells ([Spector et al., 2022](https://www.nature.com/articles/s41467-022-29739-x)) over +/- 1,000 bp regions from the MaxTSS of 12,229 genes in HFF cells determined with PRO-Cap ([Nilson et al., 2022](https://doi.org/10.1093/nar/gkac678)): 
 
-PolII_fragMap_20-400_Max_68609_X_1_Y_4_**Gamma_1.0** 
-![PolII_fragMap_Custom_20-400_Max_68609_X_1 0_Y_4 0_](https://user-images.githubusercontent.com/38702786/190675335-1b8271ef-a0f7-449e-9ac3-aeee7dca6611.png)
 
-PolII_fragMap_20-400_Max_68609_X_1_Y_4_**Gamma_0.5**
-![PolII_fragMap_20-400_Max_68609_X_1 0_Y_4 0_Gamma_0 5_](https://user-images.githubusercontent.com/38702786/191344898-fc082eb6-6c3c-4b12-a6f1-8ef62ef5047c.png)
