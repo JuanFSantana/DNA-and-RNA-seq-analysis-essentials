@@ -22,7 +22,7 @@ The input fragments file should be a six-column, tab-delimited bed file containi
 
 
 # Behavior #
-Generates a bed file with the raw and normalized counts for each feature per gene.  
+Generates a bed file with raw and normalized counts for each feature per gene.  
 
 # Dependencies #
 
@@ -31,11 +31,11 @@ bedtools: https://bedtools.readthedocs.io/en/latest/content/installation.html, d
 # Example command usage #
 ```
 python3 dff_seq_feature_count.py plusminus1000_from_TSS_1000genes.bed \
-                  -f PolII-DFF-ChIP-Seq-Rep1.bed -20 90 40 65 -60 60 65 10 \
-                  -n Free-Pol-II PIC \
-                  -t centers \
-                  -o /home/user/dir/ \
-                  -s 0.5
+        -f PolII-DFF-ChIP-Seq-Rep1.bed -20 90 40 65 -60 60 65 10 \
+        -n Free-Pol-II PIC \
+        -t centers \
+        -o /home/user/dir/ \
+        -s 0.5
 
 ```
 # Parameter description #
@@ -46,7 +46,7 @@ regions: <str> Bed file of genomic regions of chosen length. The regions should 
 
 -n: <str> Provide a name for each feature (space sperated). The names should be in the same order as the features provided with -f.
 
--t: <str> Type of overlap: center, full, or partial (center = center of fragment overlap with interval; full = whole read within interval; partial = fragment overlap with interval >= 1 bp)
+-t: <str> Overlap for quantification. Please choose from the following options: center, full, or partial (center = center of fragment within interval; full = whole read within interval; partial = fragment overlap with interval >= 1 bp)
 
 -s: <int | float> Correction factors - must be 1 per dataset (-f) space separated. The correction factors should be in the same order as the datasets provided with -f.
 
