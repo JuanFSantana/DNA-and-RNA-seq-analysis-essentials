@@ -67,7 +67,7 @@ regions: <str> Bed file of genomic regions of chosen length with the format desc
 -n: <str> Image identifier(s) for each data file in `-f` in the same order
 
 ```
-Example output from Pol II DFF-Seq performed on HFF cells ([Spector et al., 2022](https://www.nature.com/articles/s41467-022-29739-x)) over +/- 1,000 bp regions from the MaxTSS of 12,229 genes in HFF cells determined with PRO-Cap ([Nilson et al., 2022](https://doi.org/10.1093/nar/gkac678)): 
+Example output from Pol II DFF-Seq performed on HFF cells ([Spector et al., 2022](https://www.nature.com/articles/s41467-022-29739-x)) over +/- 1,000 bp regions from the MaxTSS of 12,229 genes in HFF cells determined with PRO-Cap ([Nilson et al., 2017](https://academic.oup.com/nar/article/45/19/11088/4084663)): 
 
 PolII_fragMap_20-400_Max_68609_X_1_Y_4_**Gamma_1.0** 
 ![PolII_fragMap_Custom_20-400_Max_68609_X_1 0_Y_4 0_](https://user-images.githubusercontent.com/38702786/190675335-1b8271ef-a0f7-449e-9ac3-aeee7dca6611.png)

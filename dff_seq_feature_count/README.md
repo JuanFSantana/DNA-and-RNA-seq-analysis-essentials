@@ -3,7 +3,7 @@ Juan F. Santana, Ph.D. (<juan-santana@uiowa.edu>), University of Iowa, Iowa City
 
 Digestion with human DNA fragmentation factor (DFF) followed by immunoprecipitation and sequencing (DFF-Seq-ChIP) precisely reveals the relationship between DNA-interacting proteins and chromatin [Santana et al., 2022](https://academic.oup.com/nar/article/50/16/9127/6659871), [Spector et al., 2022](https://www.nature.com/articles/s41467-022-29739-x), [Ball et al., 2022a](https://www.mdpi.com/1999-4915/14/4/779), and [Ball et al., 2022b](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9239164/).
 
-fragMap of Pol II DFF-Seq performed on HFF cells ([Spector et al., 2022](https://www.nature.com/articles/s41467-022-29739-x)) over +/- 1,000 bp regions from the MaxTSS of 12,229 genes in HFF cells determined with PRO-Cap ([Nilson et al., 2022](https://doi.org/10.1093/nar/gkac678)). Chromatin features of Pol II can be determined based on the fragment size and their positional ranges in relation to the MaxTSS (see below). 
+fragMap of Pol II DFF-Seq performed on HFF cells ([Spector et al., 2022](https://www.nature.com/articles/s41467-022-29739-x)) over +/- 1,000 bp regions from the MaxTSS of 12,229 genes in HFF cells determined with PRO-Cap ([Nilson et al., 2017](https://academic.oup.com/nar/article/45/19/11088/4084663)). Chromatin features of Pol II can be determined based on the fragment size and their positional ranges in relation to the MaxTSS (see below). 
 
 The program tallies the number of DFF-Seq reads with specific length ranges that overlap within a designated genomic interval. The program requires a Linux operating system and Python 3+.
  
