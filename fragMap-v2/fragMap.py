@@ -5,6 +5,7 @@ import os
 import subprocess
 import sys
 from pathlib import Path
+from typing import List, Dict, Tuple
 
 import numpy as np
 import pandas as pd
@@ -18,7 +19,7 @@ import numpy as np
 import pandas as pd
 
 
-def check_regions_bed(regions_bed_path) -> tuple:
+def check_regions_bed(regions_bed_path: str) -> Tuple[int, int]:
     """
     Checks if the bed file follows certain conditions.
 
@@ -56,12 +57,20 @@ def check_regions_bed(regions_bed_path) -> tuple:
     return start, end
 
 
-def fragMap_matrix(arg) -> str:
+def fragMap_matrix(
+    arg: Tuple[str, str, str, str, str, str, str, str, str]
+) -> Tuple[str, str]:
     """
-    :param args: tuple
-    :return: (str,str) identifier and path to the temporary bed file with matrix
+    Runs bedtools intersect to get the number of reads in each region and then runs fragMap-matrix.cpp to create the fragMap matrix.
 
-    The function runs bedtools intersect and fragMapMatrix
+    Parameters
+    ----------
+    arg : tuple
+
+    Returns
+    -------
+    str name of the bed file.
+    str path to the fragMap matrix.
     """
     (
         reads_path,
@@ -110,12 +119,18 @@ def fragMap_matrix(arg) -> str:
     return name, temp_data_bedtools
 
 
-def modifiy_matrix(args2) -> tuple:
+def modifiy_matrix(args2: Tuple[str, np.ndarray, int, float]) -> Tuple[str, np.ndarray]:
     """
-    :param args: tuple
-    :return: (str, numpy.ndarray)
+    Repeats or averages the fragMap matrix.
 
-    Calculates the vertical and horizontal lines per base pair
+    Parameters
+    ----------
+    args2 : tuple
+
+    Returns
+    -------
+    str name of the bed file.
+    np.ndarray modified fragMap matrix.
     """
     name_and_path, height, width = args2
     table_name, path_to_matrix = name_and_path
@@ -143,12 +158,19 @@ def modifiy_matrix(args2) -> tuple:
     return table_name, final_matrix.to_numpy()
 
 
-def image(tentnuple):
+def image(
+    tentnuple: Tuple[np.ndarray, str, int, int, int, str, int, float, float]
+) -> None:
     """
-    :param tentnuple: tuple
-    :return: None
+    Creates the fragMap image.
 
-    Creates the image
+    Parameters
+    ----------
+    tentnuple : tuple
+
+    Returns
+    -------
+    None
     """
     (
         label,
