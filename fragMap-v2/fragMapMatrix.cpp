@@ -5,25 +5,26 @@
 #include <nlohmann/json.hpp>
 
 
-void establishEvents(std::ifstream& reads_bed_file, std::map<int, std::map<int, double>>& intervals, const int& userStart, const int& userEnd, double& correctionFactor, int& userFragStart, int& userFragEnd);
+void establishEvents(std::ifstream& reads_bed_file, std::map<int, std::map<int, double>>& intervals, const std::string& analysis_type, const int& userStart, const int& userEnd, double& correctionFactor, int& userFragStart, int& userFragEnd);
 void computeCounts(std::map<int, std::map<int, double>>& intervals, std::map<int, std::map<int, double>>& intervalsCounts);
 void fillInMissingPositions(std::map<int, std::map<int, double>>& intervalsCounts, std::map<int, std::map<int, double>>& intervalsCountsFinal, const int& userStart, const int& userEnd, int& userFragStart, int& userFragEnd);
-void outputTheFile(std::ofstream& outputFile, std::map<int, std::map<int, double>>& intervalsCountsFinal, const std::string& outputName); 
+void outputTheFile(std::ofstream& outputFile, std::map<int, std::map<int, double>>& intervalsCountsFinal, const std::string& analysis_type, const std::string& outputName); 
 
 int main(int argc, char* argv[]) {
     // make sure that 6 arguments are passed
-    if (argc != 7) {
-        std::cerr << "Usage: " << argv[0] << " <json data> <output name> <start of regions coordinate (-500)> <end of regions coordinate (500)> <start of frag lengths (20)> <end of frag lengths (400)>" << std::endl << std::endl;
+    if (argc != 8) {
+        std::cerr << "Usage: " << argv[0] << " <json data> <type of analysis(centers or full frag)> <output name> <start of regions coordinate (-500)> <end of regions coordinate (500)> <start of frag lengths (20)> <end of frag lengths (400)>" << std::endl << std::endl;
         exit(EXIT_FAILURE);
         return 1;
     }
     // check for valid type_of_overlap option and establish type of analysis; declaring bedFilePath to be opened, jsonData to be parsed 
     std::string receivedJsonString = argv[1];
-    std::string outputName = argv[2];
-    int userStart = std::stoi(argv[3]);
-    int userEnd = std::stoi(argv[4]);
-    int userFragStart = std::stoi(argv[5]);
-    int userFragEnd = std::stoi(argv[6]);
+    std::string analysis_type = argv[2];
+    std::string outputName = argv[3];
+    int userStart = std::stoi(argv[4]);
+    int userEnd = std::stoi(argv[5]);
+    int userFragStart = std::stoi(argv[6]);
+    int userFragEnd = std::stoi(argv[7]);
 
     nlohmann::json data = nlohmann::json::parse(receivedJsonString);
 
@@ -41,7 +42,7 @@ int main(int argc, char* argv[]) {
                     std::cerr << "Unable to open file: " << bedFilePath << std::endl;
                     continue;
                 }
-                establishEvents(reads_bed_file, intervals, userStart, userEnd, correctionFactor, userFragStart, userFragEnd);
+                establishEvents(reads_bed_file, intervals, analysis_type, userStart, userEnd, correctionFactor, userFragStart, userFragEnd);
                 reads_bed_file.close();
 
             } else {
@@ -68,12 +69,12 @@ int main(int argc, char* argv[]) {
     intervalsCounts.clear();
     // output file
     std::ofstream outputFile;
-    outputTheFile(outputFile, intervalsCountsFinal, outputName);
+    outputTheFile(outputFile, intervalsCountsFinal, analysis_type, outputName);
 
     return 0;
 }
 
-void establishEvents(std::ifstream& reads_bed_file, std::map<int, std::map<int, double>>& intervals, const int& userStart, const int& userEnd, double& correctionFactor, int& userFragStart, int& userFragEnd){
+void establishEvents(std::ifstream& reads_bed_file, std::map<int, std::map<int, double>>& intervals, const std::string& analysis_type, const int& userStart, const int& userEnd, double& correctionFactor, int& userFragStart, int& userFragEnd){
     // read each line of the reads bed file
     // declare variables to store bed file information from bedtools output
     std::string regionChr; // col1
@@ -95,24 +96,56 @@ void establishEvents(std::ifstream& reads_bed_file, std::map<int, std::map<int, 
             int readBasePositionStart;
             int readBasePositionEnd;
             int positionTSS = (regionStart + regionEnd) / 2;
+            int newStart = -99999;
+            int newEnd = -99999;
             // calculate read position relative to TSS in the middle of the region
+            if (analysis_type == "centers"){
+                if (regionStrand == "+"){
+                    readBasePositionStart = ((readsStart + readsEnd) / 2) - positionTSS;  
+                    readBasePositionEnd = readBasePositionStart;
+                }
 
-            if (regionStrand == "+"){
-                readBasePositionStart = readsStart - positionTSS;
-                readBasePositionEnd = readsEnd - positionTSS;
+                else if (regionStrand == "-"){
+                    readBasePositionStart = positionTSS - (readsStart + readsEnd) / 2; 
+                    readBasePositionEnd = readBasePositionStart;
+                }
+
+                // if the postion is 0 or positive, add 1 to the position to reflect starting at +1
+                if (readBasePositionStart >= 0){
+                    readBasePositionStart += 1;
+                }
+                if (readBasePositionEnd >= 0){
+                    readBasePositionEnd += 1;
+                }
+
+                if (readBasePositionStart >= userStart && readBasePositionStart <= userEnd && readBasePositionEnd >= userStart && readBasePositionEnd <= userEnd){
+                    newStart = readBasePositionStart;
+                    newEnd = readBasePositionEnd;
+                } else{
+                    continue;
+                }
             }
 
-            else if (regionStrand == "-"){
-                readBasePositionStart = positionTSS - readsEnd;
-                readBasePositionEnd = positionTSS - readsStart;
-            }
-        
-            // if the postion is 0 or positive, add 1 to the position to reflect starting at +1
-            if (readBasePositionStart >= 0){
-                readBasePositionStart += 1;
-            }
-            if (readBasePositionEnd >= 0){
-                readBasePositionEnd += 1;
+            else if (analysis_type == "full"){
+                if (regionStrand == "+"){
+                    readBasePositionStart = readsStart - positionTSS;
+                    readBasePositionEnd = readsEnd - positionTSS;
+                }
+
+                else if (regionStrand == "-"){
+                    readBasePositionStart = positionTSS - readsEnd;
+                    readBasePositionEnd = positionTSS - readsStart;
+                }
+
+                // if the postion is 0 or positive, add 1 to the position to reflect starting at +1
+                if (readBasePositionStart >= 0){
+                    readBasePositionStart += 1;
+                }
+                if (readBasePositionEnd >= 0){
+                    readBasePositionEnd += 1;
+                }
+                newStart = std::max(readBasePositionStart, userStart);
+                newEnd = std::min(readBasePositionEnd, userEnd);
             }
 
             // 4 types of reads to count:
@@ -120,29 +153,28 @@ void establishEvents(std::ifstream& reads_bed_file, std::map<int, std::map<int, 
             // 2. left position of read is less than start but right position of read is inside user defined start and end
             // 3. left position of read is inside user defined start and end but right position of read is greater than end
             // 4. both left and right position of read are inside user defined start and end
-            int newStart = std::max(readBasePositionStart, userStart);
-            int newEnd = std::min(readBasePositionEnd, userEnd);
-
             // addto intervals
-            if (intervals[readSize].find(newStart) == intervals[readSize].end()) {
-                    intervals[readSize][newStart] = 1 * correctionFactor; // add 1 to the count and normalize by the correction factor
+            if (newStart != -99999 && newEnd != -99999){
+                if (intervals[readSize].find(newStart) == intervals[readSize].end()) {
+                        intervals[readSize][newStart] = 1 * correctionFactor; // add 1 to the count and normalize by the correction factor
 
-            } else {
-                intervals[readSize][newStart] += 1 * correctionFactor; 
-            }
+                } else {
+                    intervals[readSize][newStart] += 1 * correctionFactor; 
+                }
 
-            int newEndNotZero; // for cases where newStart is -1, newEnd is 0, we want to add 1 to newEnd
-            if ((newEnd+1) == 0){
-                newEndNotZero = 1;
-            }
-            else{
-                newEndNotZero = newEnd+1;
-            }
-            if (intervals[readSize].find(newEndNotZero) == intervals[readSize].end()) {
+                int newEndNotZero; // for cases where newStart is -1, newEnd is 0, we want to add 1 to newEnd
+                if ((newEnd+1) == 0){
+                    newEndNotZero = 1;
+                }
+                else{
+                    newEndNotZero = newEnd+1;
+                }
+                if (intervals[readSize].find(newEnd) == intervals[readSize].end()) {
 
-                intervals[readSize][newEndNotZero] = -1 * correctionFactor;
-            } else {
-                intervals[readSize][newEndNotZero] -= 1 * correctionFactor;
+                    intervals[readSize][newEndNotZero] = -1 * correctionFactor;
+                } else {
+                    intervals[readSize][newEndNotZero] -= 1 * correctionFactor;
+                }
             }
         }
     }
@@ -202,7 +234,7 @@ void fillInMissingPositions(std::map<int, std::map<int, double>>& intervalsCount
     }
 }
 
-void outputTheFile(std::ofstream& outputFile, std::map<int, std::map<int, double>>& intervalsCountsFinal, const std::string& outputName){
+void outputTheFile(std::ofstream& outputFile, std::map<int, std::map<int, double>>& intervalsCountsFinal, const std::string& analysis_type, const std::string& outputName){
     outputFile.open(outputName+".bed");
     // create lines
     std::string header = "\t";

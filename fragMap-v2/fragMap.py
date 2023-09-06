@@ -67,6 +67,7 @@ def fragMap_matrix(arg) -> str:
         reads_path,
         corr_factor,
         name,
+        overlap_type,
         region_start,
         region_end,
         size_left,
@@ -93,10 +94,12 @@ def fragMap_matrix(arg) -> str:
 
     json_data = json.dumps({str(temp_data_bedtools): corr_factor})
 
+    # run fragMapMatrix
     subprocess.run(
         [
             fragMapMatrix,
             json_data,
+            overlap_type,
             name,
             str(region_start),
             str(region_end),
@@ -111,7 +114,7 @@ def fragMap_matrix(arg) -> str:
 def modifiy_matrix(args2) -> tuple:
     """
     :param args: tuple
-    :return: (str, numpy.ndarray) identifier and modified matrix
+    :return: (str, numpy.ndarray)
 
     Calculates the vertical and horizontal lines per base pair
     """
@@ -345,6 +348,13 @@ def parse_args():
         help="Sets the chosen value as black, default is largest number in the matrix",
     )
     parser.add_argument(
+        "-c",
+        dest="centers",
+        action="store_true",
+        default=False,
+        help="If argument is invoked, the output will be a fragMap of centers of fragments",
+    )
+    parser.add_argument(
         "-y",
         dest="y_axis",
         metavar="\b",
@@ -427,6 +437,7 @@ def main(args):
     identifier = args.names
     size_left, size_right = args.range
     spikeins = args.spikein
+    centers = args.centers
 
     # check bed file, and get start and end of regions relative to center
     region_start, region_end = check_regions_bed(regions_to_analyze)
@@ -435,6 +446,12 @@ def main(args):
     if not Path(output_directory).exists():
         sys.exit("Output directory does not exist")
 
+    # center or full fragment
+    if centers:
+        overlap_type = "centers"
+    else:
+        overlap_type = "full"
+
     # create iterable for multiprocessing
 
     info_iterable = [
@@ -442,6 +459,7 @@ def main(args):
             read,
             corr,
             name,
+            overlap_type,
             str(region_start),
             str(region_end),
             str(size_left),
