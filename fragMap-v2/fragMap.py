@@ -5,7 +5,7 @@ import os
 import subprocess
 import sys
 from pathlib import Path
-from typing import List, Dict, Tuple
+from typing import Tuple
 
 import numpy as np
 import pandas as pd
