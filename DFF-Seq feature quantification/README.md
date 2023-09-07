@@ -5,9 +5,9 @@ Digestion with human DNA fragmentation factor (DFF) followed by immunoprecipitat
 
 fragMap of Pol II DFF-Seq performed on HFF cells ([Spector et al., 2022](https://www.nature.com/articles/s41467-022-29739-x)) over +/- 1,000 bp regions from the MaxTSS of 12,229 genes in HFF cells determined with PRO-Cap ([Nilson et al., 2017](https://academic.oup.com/nar/article/45/19/11088/4084663)). Chromatin features of Pol II can be determined based on the fragment size and their positional ranges in relation to the MaxTSS (see below). 
 
-This program tallies the number of DFF-Seq reads with specific user-defined length ranges that overlap within a user-defined genomic interval. The program requires a Linux operating system and Python 3+.
- 
 ![fragMap-exp4-polII](https://github.com/JuanFSantana/DNA-and-RNA-seq-analysis-essentials/assets/38702786/184aa0a9-d262-4639-adce-4b492ef2f2ea)
+
+This program tallies the number of DFF-Seq reads with specific user-defined length ranges that overlap within a user-defined genomic interval. The program requires a Linux operating system and Python 3+.
 
 # File requirements #
 The input regions file should be a six-column, tab-delimited bed file containing chromosome, start and end positions, and the strand information for each region. The regions can be of any length as long as it is even and the center is the MaxTSS. 
