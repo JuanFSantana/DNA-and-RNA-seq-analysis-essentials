@@ -109,14 +109,9 @@ def consolidate_files(results: List[str], output_directory: str) -> None:
 
     The function consolidates the temporary bed files with counts into one bed file
     """
-    basename = os.path.basename(output_directory)
-    try:
-        basename[-4] != ".txt" or basename[-4] != ".bed"
-    except IndexError:
-        output_directory = output_directory + ".bed"
 
     files = [open(file, "r") for file in results]
-    with open(output_directory, "w") as output_file:
+    with open(output_directory + "feature_counts.txt", "w") as output_file:
         for lines in zip(*files):
             for line in lines:
                 joined = [(line.split(), idx) for idx, line in enumerate(lines)]
